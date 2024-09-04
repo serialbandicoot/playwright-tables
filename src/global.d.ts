@@ -31,7 +31,12 @@ declare global {
        * @example
        * await expect(locator).expectColumnValuesToBeInRange("Age", 18, 65, ["Header1", "Header2"]);
        **/
-      expectColumnValuesToBeInRange(columnHeader: string, minValue: number, maxValue: number, headers?: string[]): Promise<R>;
+      expectColumnValuesToBeInRange(
+        columnHeader: string,
+        minValue: number,
+        maxValue: number,
+        headers?: string[],
+      ): Promise<R>;
 
       /**
        * Asserts that all values in a specified column are numbers.
