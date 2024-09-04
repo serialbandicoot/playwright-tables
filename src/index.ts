@@ -117,4 +117,4 @@ const playwrightTables = {
   },
 };
 
-export default PlaywrightTables;
+export default playwrightTables;
