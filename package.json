@@ -1,0 +1,70 @@
+{
+    "name": "playwright-tables",
+    "version": "1.0.0",
+    "description": "Custom playwright matchers to validate HTML tables.",
+    "main": "dist/index.js",
+    "types": "dist/global.d.ts",
+    "files": [
+        "dist"
+    ],
+    "scripts": {
+        "prepare": "npm run build",
+        "prepublishOnly": "npm test && npm run lint",
+        "build": "tsc",
+        "postbuild": "cp ./src/*.d.ts ./dist/",
+        "start": "node server/index.js",
+        "test": "playwright test",
+        "lint": "eslint 'src/**/*.{ts,tsx}' --fix",
+        "format": "prettier --config .prettierrc 'src/*.ts' --write",
+        "format:check": "prettier --config .prettierrc 'src/*.ts' --check",
+        "release": "release-it --github.release",
+        "release:ci": "npm run release -- --ci --npm.skipChecks --no-git.requireCleanWorkingDir",
+        "release:patch": "npm run release -- patch",
+        "release:minor": "npm run release -- minor",
+        "release:major": "npm run release -- major"
+    },
+    "lint-staged": {
+        "*.ts": [
+            "eslint --fix",
+            "prettier --write"
+        ],
+        "*.js": [
+            "eslint --fix",
+            "prettier --write"
+        ]
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/serialbandicoot/playwright-tables.git"
+    },
+    "keywords": [
+        "playwright",
+        "expect",
+        "assertions"
+    ],
+    "author": "Sam Treweek <samtreweek@gmail.com>",
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/serialbandicoot/playwright-tables/issues"
+    },
+    "homepage": "https://github.com/serialbandicoot/playwright-tables#readme",
+    "devDependencies": {
+        "@eslint/js": "^9.9.1",
+        "@playwright/test": "^1.36.2",
+        "@typescript-eslint/eslint-plugin": "^6.3.0",
+        "@typescript-eslint/parser": "^6.3.0",
+        "eslint": "^8.57.0",
+        "eslint-config-prettier": "^9.0.0",
+        "eslint-plugin-prettier": "^5.0.0",
+        "globals": "^15.9.0",
+        "lint-staged": "^15.2.10",
+        "prettier": "^3.0.1",
+        "release-it": "^17.0.0",
+        "typescript": "^5.1.6",
+        "typescript-eslint": "^8.4.0"
+    },
+    "dependencies": {
+        "expect": "^29.6.2",
+        "html-table-to-dataframe": "^1.0.9"
+    }
+}
