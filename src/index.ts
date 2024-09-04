@@ -52,7 +52,7 @@ async function assertWithHandling<T extends unknown[]>(
   }
 }
 
-const PlaywrightTables = {
+const playwrightTables = {
   async expectTableRowCountToBeGreaterThan(locator: Locator, expected: number, headers?: string[]) {
     return assertWithHandling(
       locator,
