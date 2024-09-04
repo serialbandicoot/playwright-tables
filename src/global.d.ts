@@ -10,7 +10,7 @@ declare global {
        * @example
        * await expect(locator).expectTableRowCountToBeGreaterThan(5, ["Header1", "Header2"]);
        **/
-      expectTableRowCountToBeGreaterThan(expected: number, headers?: string[]): R;
+      expectTableRowCountToBeGreaterThan(expected: number, headers?: string[]): Promise<R>;
 
       /**
        * Asserts that all values in a specified column match a given regular expression.
@@ -20,7 +20,7 @@ declare global {
        * @example
        * await expect(locator).expectColumnValuesToMatchRegex("ColumnName", "^\\d+$", ["Header1", "Header2"]);
        **/
-      expectColumnValuesToMatchRegex(columnHeader: string, regexPattern: string, headers?: string[]): R;
+      expectColumnValuesToMatchRegex(columnHeader: string, regexPattern: string, headers?: string[]): Promise<R>;
 
       /**
        * Asserts that all values in a specified column are within a given range.
@@ -31,7 +31,7 @@ declare global {
        * @example
        * await expect(locator).expectColumnValuesToBeInRange("Age", 18, 65, ["Header1", "Header2"]);
        **/
-      expectColumnValuesToBeInRange(columnHeader: string, minValue: number, maxValue: number, headers?: string[]): R;
+      expectColumnValuesToBeInRange(columnHeader: string, minValue: number, maxValue: number, headers?: string[]): Promise<R>;
 
       /**
        * Asserts that all values in a specified column are numbers.
@@ -40,7 +40,7 @@ declare global {
        * @example
        * await expect(locator).expectColumnValuesToBeNumbers("Price", ["Header1", "Header2"]);
        **/
-      expectColumnValuesToBeNumbers(columnHeader: string, headers?: string[]): R;
+      expectColumnValuesToBeNumbers(columnHeader: string, headers?: string[]): Promise<R>;
 
       /**
        * Asserts that a column's values match a specified target when filtered by another column.
@@ -58,7 +58,7 @@ declare global {
         filterColumn: string,
         filterValue: Nullable<string>,
         headers?: string[],
-      ): R;
+      ): Promise<R>;
     }
   }
 }
