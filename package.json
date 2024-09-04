@@ -1,6 +1,6 @@
 {
     "name": "playwright-tables",
-    "version": "1.1.0",
+    "version": "1.1.1",
     "description": "Custom playwright matchers to validate HTML tables.",
     "main": "dist/index.js",
     "types": "dist/global.d.ts",
