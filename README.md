@@ -2,16 +2,16 @@
 
 Implements Accessible Expectations from the library [html-table-to-dataframe](https://www.npmjs.com/package/html-table-to-dataframe)
 
-toHaveTableRowCountGreaterThan
-toHaveColumnToBeValue
-toHaveColumnValuesToMatchRegex
-toHaveColumnValuesToBeInRange
-toHaveColumnValuesToBeNumbers
-toHaveColumnToMatchWhenFilteredBy
-toHaveColumnToMatchGroupWhenFilteredBy
-toHaveColumnToNotMatch
-toHaveTableRowCount
-toHaveColumnGroupToBeValue
-toHaveColumnGroupToBeValues
-toHaveTableToNotMatch
-toHaveTableToMatch
+- toHaveTableRowCountGreaterThan
+- toHaveColumnToBeValue
+- toHaveColumnValuesToMatchRegex
+- toHaveColumnValuesToBeInRange
+- toHaveColumnValuesToBeNumbers
+- toHaveColumnToMatchWhenFilteredBy
+- toHaveColumnToMatchGroupWhenFilteredBy
+- toHaveColumnToNotMatch
+- toHaveTableRowCount
+- toHaveColumnGroupToBeValue
+- toHaveColumnGroupToBeValues
+- toHaveTableToNotMatch
+- toHaveTableToMatch
