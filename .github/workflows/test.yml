@@ -8,6 +8,10 @@ on:
 
   workflow_dispatch:
 
+env:
+  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
+  PLAYWRIGHT_BROWSERS_PATH: 0 
+
 jobs:
   build:
     runs-on: ubuntu-latest
