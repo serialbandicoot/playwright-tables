@@ -23,8 +23,8 @@ jobs:
           token: ${{ secrets.NPM_TOKEN }}
           node-version: 18
       - run: | 
-         npx playwright install --with-deps
-         npm install
+          npm install
+          npx playwright install --with-deps
 
       - name: Build
         run: npm run build
