@@ -37,8 +37,8 @@ jobs:
           git config --global user.name "Sam Treweek"
 
       - run: | 
-         npx playwright install --with-deps
-         npm install
+          npm install
+          npx playwright install --with-deps
 
       - name: Build
         run: npm run build
