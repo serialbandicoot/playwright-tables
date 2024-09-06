@@ -8,9 +8,9 @@ declare global {
        * @param expected - The minimum number of rows expected.
        * @param headers - An optional array of headers to use for the table.
        * @example
-       * await expect(locator).expectTableRowCountToBeGreaterThan(5, ["Header1", "Header2"]);
+       * await expect(locator).toHaveTableRowCountGreaterThan(5, ["Header1", "Header2"]);
        **/
-      expectTableRowCountToBeGreaterThan(expected: number, headers?: string[]): Promise<R>;
+      toHaveTableRowCountGreaterThan(expected: number, headers?: string[]): Promise<R>;
 
       /**
        * Asserts that all values in a specified column match a given regular expression.
@@ -18,9 +18,9 @@ declare global {
        * @param regexPattern - The regular expression pattern that the column values should match.
        * @param headers - An optional array of headers to use for the table.
        * @example
-       * await expect(locator).expectColumnValuesToMatchRegex("ColumnName", "^\\d+$", ["Header1", "Header2"]);
+       * await expect(locator).toHaveColumnValuesMatchingRegex("ColumnName", "^\\d+$", ["Header1", "Header2"]);
        **/
-      expectColumnValuesToMatchRegex(columnHeader: string, regexPattern: string, headers?: string[]): Promise<R>;
+      toHaveColumnValuesMatchingRegex(columnHeader: string, regexPattern: string, headers?: string[]): Promise<R>;
 
       /**
        * Asserts that all values in a specified column are within a given range.
@@ -29,23 +29,18 @@ declare global {
        * @param maxValue - The maximum value allowed in the column.
        * @param headers - An optional array of headers to use for the table.
        * @example
-       * await expect(locator).expectColumnValuesToBeInRange("Age", 18, 65, ["Header1", "Header2"]);
+       * await expect(locator).toHaveColumnValuesInRange("Age", 18, 65, ["Header1", "Header2"]);
        **/
-      expectColumnValuesToBeInRange(
-        columnHeader: string,
-        minValue: number,
-        maxValue: number,
-        headers?: string[],
-      ): Promise<R>;
+      toHaveColumnValuesInRange(columnHeader: string, minValue: number, maxValue: number, headers?: string[]): Promise<R>;
 
       /**
        * Asserts that all values in a specified column are numbers.
        * @param columnHeader - The header of the column to validate.
        * @param headers - An optional array of headers to use for the table.
        * @example
-       * await expect(locator).expectColumnValuesToBeNumbers("Price", ["Header1", "Header2"]);
+       * await expect(locator).toHaveColumnValuesBeNumbers("Price", ["Header1", "Header2"]);
        **/
-      expectColumnValuesToBeNumbers(columnHeader: string, headers?: string[]): Promise<R>;
+      toHaveColumnValuesBeNumbers(columnHeader: string, headers?: string[]): Promise<R>;
 
       /**
        * Asserts that a column's values match a specified target when filtered by another column.
@@ -55,9 +50,9 @@ declare global {
        * @param filterValue - The value to filter the filter column by.
        * @param headers - An optional array of headers to use for the table.
        * @example
-       * await expect(locator).expectColumnToMatchWhenFilteredBy("TargetColumn", "ExpectedValue", "FilterColumn", "FilterValue", ["Header1", "Header2"]);
+       * await expect(locator).toHaveColumnMatchWhenFilteredBy("TargetColumn", "ExpectedValue", "FilterColumn", "FilterValue", ["Header1", "Header2"]);
        **/
-      expectColumnToMatchWhenFilteredBy(
+      toHaveColumnMatchWhenFilteredBy(
         targetColumn: string,
         targetValue: Nullable<string>,
         filterColumn: string,
