@@ -1,5 +1,5 @@
 import { Locator, Page } from '@playwright/test';
-import { DataFrame, toInteractiveDataFrame, Attributes, LocatorID, toDataFrame, TableData } from 'html-table-to-dataframe';
+import { DataFrame, toInteractiveDataFrame, Attributes, LocatorID } from 'html-table-to-dataframe';
 
 export default class InteractiveDataFrame {
   private page: Page;
@@ -14,14 +14,14 @@ export default class InteractiveDataFrame {
     const locator = await this.getLocator(row, key);
     const valueStr = value.toString();
     await locator.fill(valueStr);
-    await this.page.keyboard.press("Tab");
+    await this.page.keyboard.press('Tab');
   }
 
-  async toggleButton(row: number, key: string, state: "on" | "off" = "on",) {
+  async toggleButton(row: number, key: string, state: 'on' | 'off' = 'on') {
     const locator = await this.getLocator(row, key);
-    const activeState = await locator.locator('button[role="switch"]').getAttribute("aria-checked");
-  
-    if ((activeState === "false" && state === "on") || (activeState === "true" && state === "off")) {
+    const activeState = await locator.locator('button[role="switch"]').getAttribute('aria-checked');
+
+    if ((activeState === 'false' && state === 'on') || (activeState === 'true' && state === 'off')) {
       await locator.click();
     }
   }
@@ -62,5 +62,4 @@ export default class InteractiveDataFrame {
     const outerHtml = await this.tableLocator.evaluate((el) => el.outerHTML);
     return toInteractiveDataFrame(outerHtml);
   }
-
 }
