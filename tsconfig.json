@@ -13,10 +13,10 @@
     "lib": ["es2021"],
     "skipLibCheck": true
   },
-  "files": ["dist/global.d.ts"], 
+  "files": ["src/global.d.ts"], 
   "include": [
     "src/**/*.ts", 
     "tests/**/*", 
-    "dist/global.d.ts"
+    "src/global.d.ts"
   ]
 }
