@@ -17,9 +17,8 @@ import {
   GroupType,
 } from 'html-table-to-dataframe';
 import { TableData } from 'html-table-to-dataframe/dist/types/types';
-import InteractiveDataFrame from './interactive-dataframe';
 
-export { InteractiveDataFrame };
+export { default as InteractiveDataFrame } from './interactive-dataframe';
 
 type DataFrame = { [key: string]: string }[] | null;
 
