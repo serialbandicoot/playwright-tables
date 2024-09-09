@@ -264,4 +264,9 @@ const playwrightTables = {
   },
 };
 
+// Exports
+import InteractiveDataFrame from './interactive-dataframe';
+import { toPrettyPrint } from 'html-table-to-dataframe';
+export { toPrettyPrint, toDataFrame, InteractiveDataFrame };
+
 export default playwrightTables;

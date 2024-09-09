@@ -137,8 +137,3 @@ export type GroupType = {
   filterColumn: string;
   filterValue: string;
 };
-
-// Exports
-import InteractiveDataFrame from './interactive-dataframe';
-import { toPrettyPrint, toDataFrame } from 'html-table-to-dataframe';
-export { toPrettyPrint, toDataFrame, InteractiveDataFrame };
