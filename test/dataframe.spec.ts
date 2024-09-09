@@ -52,4 +52,10 @@ test.describe('Table and Column Tests', () => {
         }
     });
 
+    test('verify toHaveTableRowCountEqualTo', async ({ page }) => {
+        await page.goto("/");
+
+        await expect(page.getByTestId("table1")).toHaveTableRowCountEqualTo(4);
+    });
+
 });

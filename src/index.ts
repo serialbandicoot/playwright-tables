@@ -15,6 +15,7 @@ import {
   toHaveTableToMatch,
   toHaveColumnToBeValue,
   GroupType,
+  toHaveTableRowCountEqualTo,
 } from 'html-table-to-dataframe';
 import { TableData } from 'html-table-to-dataframe/dist/types/types';
 
@@ -236,6 +237,16 @@ const playwrightTables = {
       locator,
       (dataFrame) => {
         toHaveTableToMatch(dataFrame, tableData);
+      },
+      headers,
+    );
+  },
+
+  async toHaveTableRowCountEqualTo(locator: Locator, expectedLength: number, headers?: string[]) {
+    return assertWithHandling(
+      locator,
+      (dataFrame) => {
+        toHaveTableRowCountEqualTo(dataFrame, expectedLength);
       },
       headers,
     );
