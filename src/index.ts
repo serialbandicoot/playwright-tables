@@ -13,6 +13,7 @@ import {
   toHaveColumnGroupToBeValues,
   toHaveTableToNotMatch,
   toHaveTableToMatch,
+  toHaveColumnToBeValue,
   GroupType,
 } from 'html-table-to-dataframe';
 import { TableData } from 'html-table-to-dataframe/dist/types/types';
@@ -20,8 +21,38 @@ import { TableData } from 'html-table-to-dataframe/dist/types/types';
 type DataFrame = { [key: string]: string }[] | null;
 
 async function getDataFrame(locator: Locator, headers?: string[]): Promise<DataFrame> {
-  const outerHtml = await locator.evaluate((el) => el.outerHTML);
-  return toDataFrame(outerHtml, headers);
+  const updatedHtml = await locator.evaluate((element) => {
+    // Function to recursively recreate the HTML for each element, including updated input values
+    const getUpdatedHTML = (el: Element): string => {
+      if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
+        // For input/textarea elements, overwrite the "value" attribute with the live value
+        const attributes = Array.from(el.attributes)
+          .filter((attr) => attr.name !== 'value') // Remove any existing 'value' attribute
+          .map((attr) => `${attr.name}="${attr.value}"`)
+          .join(' ');
+
+        // Return the tag with the updated value for inputs and textareas
+        return `<${el.tagName.toLowerCase()} ${attributes} value="${el.value}"></${el.tagName.toLowerCase()}>`;
+      } else {
+        // Rebuild the HTML for non-input elements
+        const childrenHtml = Array.from(el.children)
+          .map((child) => getUpdatedHTML(child))
+          .join('');
+
+        const attributes = Array.from(el.attributes)
+          .map((attr) => `${attr.name}="${attr.value}"`)
+          .join(' ');
+
+        return `<${el.tagName.toLowerCase()} ${attributes}>${childrenHtml || el.innerHTML}</${el.tagName.toLowerCase()}>`;
+      }
+    };
+
+    // Call the recursive function for the root element
+    return getUpdatedHTML(element);
+  });
+
+  // Now that we have the updated HTML, pass it to toDataFrame as before
+  return toDataFrame(updatedHtml, headers);
 }
 
 type AssertionFn<T extends unknown[]> = (tableData: { [key: string]: string }[], ...args: T) => void;
@@ -175,6 +206,16 @@ const playwrightTables = {
       locator,
       (tableData) => {
         toHaveColumnGroupToBeValues(tableData, filterGroupsList);
+      },
+      headers,
+    );
+  },
+
+  async toHaveColumnToBeValue(locator: Locator, column: string, value: string, headers?: string[]) {
+    return assertWithHandling(
+      locator,
+      (tableData) => {
+        toHaveColumnToBeValue(tableData, column, value);
       },
       headers,
     );

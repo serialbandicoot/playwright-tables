@@ -1,5 +1,3 @@
-import { Nullable } from 'html-table-to-dataframe/dist/types/types';
-
 declare global {
   namespace PlaywrightTest {
     interface Matchers<R> {
@@ -54,11 +52,70 @@ declare global {
        **/
       toHaveColumnMatchWhenFilteredBy(
         targetColumn: string,
-        targetValue: Nullable<string>,
+        targetValue: string,
         filterColumn: string,
-        filterValue: Nullable<string>,
+        filterValue: string,
         headers?: string[],
       ): Promise<R>;
+
+      /**
+       * Asserts that a column's value in a single row matches the expected value.
+       * @param tableData - The data of the table, expected to contain only one row.
+       * @param column - The column header to check.
+       * @param value - The expected value in the column.
+       * @example
+       * const tableData = [{ col_1: '1', col_2: '3' }];
+       * await expect(locator).toHaveColumnToBeValue(tableData, 'col_2', '3');
+       **/
+      toHaveColumnToBeValue(tableData: { [key: string]: string }[], column: string, value: string): Promise<R>;
+
+      /**
+       * Asserts that a column's value in a single row matches the expected value for a group of filters.
+       * @param tableData - The data of the table, expected to contain only one row.
+       * @param filterGroup - An array of filter groups specifying which columns and values to check.
+       * @example
+       * const filterGroup = [{ filterColumn: "col_2", filterValue: "3" }];
+       * await expect(locator).toHaveColumnGroupToBeValue(tableData, filterGroup);
+       **/
+      toHaveColumnGroupToBeValue(tableData: { [key: string]: string }[], filterGroup: GroupType[]): Promise<R>;
+
+      /**
+       * Asserts that column values in multiple rows match expected values for a group of filters.
+       * @param tableData - The data of the table.
+       * @param filterGroups - An array of filter groups where each group specifies the columns and values to check.
+       * @example
+       * const filterGroups = [
+       *   [{ filterColumn: "col_2", filterValue: "3" }],
+       *   [{ filterColumn: "col_2", filterValue: "4" }]
+       * ];
+       * await expect(locator).toHaveColumnGroupToBeValues(tableData, filterGroups);
+       **/
+      toHaveColumnGroupToBeValues(tableData: { [key: string]: string }[], filterGroups: GroupType[][]): Promise<R>;
+
+      /**
+       * Asserts that a table does not match another table's key/value pairs.
+       * @param tableData1 - The first table data.
+       * @param tableData2 - The second table data.
+       * @example
+       * await expect(locator).toHaveTableToNotMatch(tableData1, tableData2);
+       **/
+      toHaveTableToNotMatch(tableData1: { [key: string]: string }[], tableData2: { [key: string]: string }[]): Promise<R>;
+
+      /**
+       * Asserts that a table matches another table's key/value pairs.
+       * @param tableData1 - The first table data.
+       * @param tableData2 - The second table data.
+       * @example
+       * await expect(locator).toHaveTableToMatch(tableData1, tableData2);
+       **/
+      toHaveTableToMatch(tableData1: { [key: string]: string }[], tableData2: { [key: string]: string }[]): Promise<R>;
     }
   }
 }
+
+// Define GroupType for usage with
+// - toHaveColumnToMatchGroupWhenFilteredBy
+export type GroupType = {
+  filterColumn: string;
+  filterValue: string;
+};
