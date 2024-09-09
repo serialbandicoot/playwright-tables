@@ -109,6 +109,15 @@ declare global {
        * await expect(locator).toHaveTableToMatch(tableData1, tableData2);
        **/
       toHaveTableToMatch(tableData1: { [key: string]: string }[], tableData2: { [key: string]: string }[]): Promise<R>;
+
+      /**
+       * Asserts that the table data has exactly the expected number of rows.
+       * @param tableData - The table data.
+       * @param expectedLength - The expected number of rows.
+       * @example
+       * await expect(locator).toHaveTableRowCountEqualTo(tableData, 2);
+       */
+      toHaveTableRowCountEqualTo(tableData: { [key: string]: string }[], expectedLength: number): Promise<R>;
     }
   }
 }
@@ -119,3 +128,8 @@ export type GroupType = {
   filterColumn: string;
   filterValue: string;
 };
+
+// Exports
+import InteractiveDataFrame from './interactive-dataframe';
+import { toPrettyPrint } from 'html-table-to-dataframe';
+export { toPrettyPrint, InteractiveDataFrame };

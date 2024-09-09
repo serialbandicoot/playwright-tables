@@ -18,8 +18,6 @@ import {
 } from 'html-table-to-dataframe';
 import { TableData } from 'html-table-to-dataframe/dist/types/types';
 
-export { default as InteractiveDataFrame } from './interactive-dataframe';
-
 type DataFrame = { [key: string]: string }[] | null;
 
 async function getDataFrame(locator: Locator, headers?: string[]): Promise<DataFrame> {
