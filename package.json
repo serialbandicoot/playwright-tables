@@ -66,6 +66,6 @@
     },
     "dependencies": {
         "expect": "^29.6.2",
-        "html-table-to-dataframe": "^1.0.16"
+        "html-table-to-dataframe": "^1.0.17"
     }
 }
