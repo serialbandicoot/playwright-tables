@@ -140,5 +140,5 @@ export type GroupType = {
 
 // Exports
 import InteractiveDataFrame from './interactive-dataframe';
-import { toPrettyPrint } from 'html-table-to-dataframe';
-export { toPrettyPrint, InteractiveDataFrame };
+import { toPrettyPrint, toDataFrame } from 'html-table-to-dataframe';
+export { toPrettyPrint, toDataFrame, InteractiveDataFrame };
