@@ -118,6 +118,15 @@ declare global {
        * await expect(locator).toHaveTableRowCountEqualTo(tableData, 2);
        */
       toHaveTableRowCountEqualTo(tableData: { [key: string]: string }[], expectedLength: number): Promise<R>;
+
+      /**
+       * Asserts that the table data has exactly the expected number of rows.
+       * @param tableData - The table data.
+       * @param expectedLength - The expected number of rows.
+       * @example
+       * await expect(locator).toHaveTableRowCountLessThan(tableData, 2);
+       */
+      toHaveTableRowCountLessThan(tableData: { [key: string]: string }[], expectedLength: number): Promise<R>;
     }
   }
 }

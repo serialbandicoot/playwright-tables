@@ -58,4 +58,10 @@ test.describe('Table and Column Tests', () => {
         await expect(page.getByTestId("table1")).toHaveTableRowCountEqualTo(4);
     });
 
+    test('verify toHaveTableRowCountLessThan', async ({ page }) => {
+        await page.goto("/");
+
+        await expect(page.getByTestId("table1")).toHaveTableRowCountLessThan(4);
+    });
+
 });

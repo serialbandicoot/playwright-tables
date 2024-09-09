@@ -15,3 +15,5 @@ Implements Accessible Expectations from the library [html-table-to-dataframe](ht
 - toHaveColumnGroupToBeValues
 - toHaveTableToNotMatch
 - toHaveTableToMatch
+- toHaveTableRowCountLessThan
+- toHaveTableRowCountEqualTo
