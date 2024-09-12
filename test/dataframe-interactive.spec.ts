@@ -1,6 +1,5 @@
 import { expect, test } from '@playwright/test';
 import { TablePage } from './pages/tables-page';
-import { toDataFrame } from 'html-table-to-dataframe';
 
 test.describe('Table and Column Tests Interactive', () => {
 

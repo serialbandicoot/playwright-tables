@@ -1,7 +1,7 @@
 import { Locator, Page } from '@playwright/test';
 import { DataFrame, toInteractiveDataFrame, Attributes, LocatorID } from 'html-table-to-dataframe';
 
-export default class InteractiveDataFrame {
+export class InteractiveDataFrame {
   private page: Page;
   readonly tableLocator: Locator;
 

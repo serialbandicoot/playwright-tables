@@ -22,7 +22,7 @@ import { TableData } from 'html-table-to-dataframe/dist/types/types';
 
 type DataFrame = { [key: string]: string }[] | null;
 
-async function getDataFrame(locator: Locator, headers?: string[]): Promise<DataFrame> {
+export async function getDataFrame(locator: Locator, headers?: string[]): Promise<DataFrame> {
   const updatedHtml = await locator.evaluate((element) => {
     // Function to recursively recreate the HTML for each element, including updated input values
     const getUpdatedHTML = (el: Element): string => {
@@ -265,7 +265,7 @@ const playwrightTables = {
 };
 
 // Exports
-import InteractiveDataFrame from './interactive-dataframe';
+import { InteractiveDataFrame } from './interactive-dataframe';
 import { toPrettyPrint } from 'html-table-to-dataframe';
 export { toPrettyPrint, toDataFrame, InteractiveDataFrame };
 

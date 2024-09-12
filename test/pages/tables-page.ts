@@ -1,6 +1,6 @@
 import { Page } from "@playwright/test";
 import { TablesBasePage } from "./base-page";
-import InteractiveDataFrame from "../../src/interactive-dataframe";
+import { InteractiveDataFrame } from "../../src/interactive-dataframe";
 
 export class TablePage extends TablesBasePage {
     readonly table1: InteractiveDataFrame;
