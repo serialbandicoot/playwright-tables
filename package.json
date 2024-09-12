@@ -60,12 +60,12 @@
         "globals": "^15.9.0",
         "lint-staged": "^15.2.10",
         "prettier": "^3.0.1",
-        "release-it": "^17.0.0",
+        "release-it": "^17.6.0",
         "typescript": "^5.1.6",
         "typescript-eslint": "^8.4.0"
     },
     "dependencies": {
         "expect": "^29.6.2",
-        "html-table-to-dataframe": "^1.0.21"
+        "html-table-to-dataframe": "^1.0.25"
     }
 }
