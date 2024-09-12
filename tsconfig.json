@@ -12,7 +12,8 @@
     "allowJs": true,
     "lib": ["dom", "es2021"],  // Add "dom" here
     "types": ["node"],
-    "skipLibCheck": true
+    "skipLibCheck": true,
+    "declaration": true,
   },
   "files": ["src/global.d.ts"],
   "include": [
