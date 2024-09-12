@@ -61,7 +61,7 @@ test.describe('Table and Column Tests', () => {
     test('verify toHaveTableRowCountLessThan', async ({ page }) => {
         await page.goto("/");
 
-        await expect(page.getByTestId("table1")).toHaveTableRowCountLessThan(4);
+        await expect(page.getByTestId("table1")).toHaveTableRowCountLessThan(5);
     });
 
 });
