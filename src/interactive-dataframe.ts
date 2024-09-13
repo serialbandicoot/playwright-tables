@@ -1,5 +1,5 @@
 import { Locator, Page } from '@playwright/test';
-import { DataFrame, toInteractiveDataFrame, Attributes, LocatorID } from 'html-table-to-dataframe';
+import { DataFrame, toInteractiveDataFrame, LocatorID, Attributes } from 'html-table-to-dataframe';
 
 export class InteractiveDataFrame {
   private page: Page;

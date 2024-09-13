@@ -10,15 +10,14 @@
     "noImplicitAny": true,
     "resolveJsonModule": true,
     "allowJs": true,
-    "lib": ["dom", "es2021"],  // Add "dom" here
+    "lib": ["dom", "es2021"],
     "types": ["node"],
     "skipLibCheck": true,
-    "declaration": true,
+    "declaration": true
   },
-  "files": ["src/global.d.ts"],
   "include": [
     "src/**/*.ts",
-    "tests/**/*",
     "src/global.d.ts"
-  ]
+  ],
+  "exclude": ["node_modules", "dist"]
 }

@@ -1,4 +1,4 @@
-import playwrightTables from './src'
+import {playwrightTables} from './src'
 import { expect, PlaywrightTestConfig } from '@playwright/test';
 
 expect.extend(playwrightTables);

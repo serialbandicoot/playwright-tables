@@ -1,3 +1,5 @@
+import { GroupType } from "html-table-to-dataframe";
+
 declare global {
   namespace PlaywrightTest {
     interface Matchers<R> {
@@ -131,9 +133,4 @@ declare global {
   }
 }
 
-// Define GroupType for usage with
-// - toHaveColumnToMatchGroupWhenFilteredBy
-export type GroupType = {
-  filterColumn: string;
-  filterValue: string;
-};
+export {};

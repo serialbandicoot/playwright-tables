@@ -14,11 +14,10 @@ import {
   toHaveTableToNotMatch,
   toHaveTableToMatch,
   toHaveColumnToBeValue,
-  GroupType,
   toHaveTableRowCountEqualTo,
   toHaveTableRowCountLessThan,
 } from 'html-table-to-dataframe';
-import { TableData } from 'html-table-to-dataframe/dist/types/types';
+import { TableData } from 'html-table-to-dataframe';
 
 type DataFrame = { [key: string]: string }[] | null;
 
@@ -264,9 +263,12 @@ const playwrightTables = {
   },
 };
 
-// Exports
-import { InteractiveDataFrame } from './interactive-dataframe';
-import { toPrettyPrint } from 'html-table-to-dataframe';
-export { toPrettyPrint, toDataFrame, InteractiveDataFrame };
+// Define GroupType for usage with
+// - toHaveColumnToMatchGroupWhenFilteredBy
+export type GroupType = {
+  filterColumn: string;
+  filterValue: string;
+};
 
-export default playwrightTables;
+export { InteractiveDataFrame } from './interactive-dataframe';
+export { playwrightTables };

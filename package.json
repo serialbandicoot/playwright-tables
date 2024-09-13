@@ -3,7 +3,7 @@
     "version": "1.1.16",
     "description": "Custom playwright matchers to validate HTML tables.",
     "main": "dist/index.js",
-    "types": "dist/global.d.ts",
+    "types": "dist/index.d.ts",
     "files": [
         "dist"
     ],
@@ -66,6 +66,6 @@
     },
     "dependencies": {
         "expect": "^29.6.2",
-        "html-table-to-dataframe": "^1.0.25"
+        "html-table-to-dataframe": "^1.0.26"
     }
 }
