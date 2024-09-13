@@ -69,7 +69,7 @@ declare global {
        * const tableData = [{ col_1: '1', col_2: '3' }];
        * await expect(locator).toHaveColumnToBeValue(tableData, 'col_2', '3');
        **/
-      toHaveColumnToBeValue(tableData: { [key: string]: string }[], column: string, value: string): Promise<R>;
+      toHaveColumnToBeValue(column: string, value: string): Promise<R>;
 
       /**
        * Asserts that a column's value in a single row matches the expected value for a group of filters.
@@ -79,7 +79,7 @@ declare global {
        * const filterGroup = [{ filterColumn: "col_2", filterValue: "3" }];
        * await expect(locator).toHaveColumnGroupToBeValue(tableData, filterGroup);
        **/
-      toHaveColumnGroupToBeValue(tableData: { [key: string]: string }[], filterGroup: GroupType[]): Promise<R>;
+      toHaveColumnGroupToBeValue(filterGroup: GroupType[]): Promise<R>;
 
       /**
        * Asserts that column values in multiple rows match expected values for a group of filters.
@@ -92,7 +92,7 @@ declare global {
        * ];
        * await expect(locator).toHaveColumnGroupToBeValues(tableData, filterGroups);
        **/
-      toHaveColumnGroupToBeValues(tableData: { [key: string]: string }[], filterGroups: GroupType[][]): Promise<R>;
+      toHaveColumnGroupToBeValues(filterGroups: GroupType[][]): Promise<R>;
 
       /**
        * Asserts that a table does not match another table's key/value pairs.
@@ -119,7 +119,7 @@ declare global {
        * @example
        * await expect(locator).toHaveTableRowCountEqualTo(tableData, 2);
        */
-      toHaveTableRowCountEqualTo(tableData: { [key: string]: string }[], expectedLength: number): Promise<R>;
+      toHaveTableRowCountEqualTo(expectedLength: number): Promise<R>;
 
       /**
        * Asserts that the table data has exactly the expected number of rows.
@@ -128,7 +128,7 @@ declare global {
        * @example
        * await expect(locator).toHaveTableRowCountLessThan(tableData, 2);
        */
-      toHaveTableRowCountLessThan(tableData: { [key: string]: string }[], expectedLength: number): Promise<R>;
+      toHaveTableRowCountLessThan(expectedLength: number): Promise<R>;
     }
   }
 }
