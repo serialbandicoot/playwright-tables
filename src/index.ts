@@ -16,6 +16,7 @@ import {
   toHaveColumnToBeValue,
   toHaveTableRowCountEqualTo,
   toHaveTableRowCountLessThan,
+  toHaveColumnValuesInSet,
 } from 'html-table-to-dataframe';
 import { TableData } from 'html-table-to-dataframe';
 
@@ -257,6 +258,16 @@ const playwrightTables = {
       locator,
       (dataFrame) => {
         toHaveTableRowCountLessThan(dataFrame, expectedLength);
+      },
+      headers,
+    );
+  },
+
+  async toHaveColumnValuesInSet(locator: Locator, columnHeader: string, targetSet: Set<string>, headers?: string[]) {
+    return assertWithHandling(
+      locator,
+      (tableData) => {
+        toHaveColumnValuesInSet(tableData, columnHeader, targetSet);
       },
       headers,
     );

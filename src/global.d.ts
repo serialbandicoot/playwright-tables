@@ -62,7 +62,6 @@ declare global {
 
       /**
        * Asserts that a column's value in a single row matches the expected value.
-       * @param tableData - The data of the table, expected to contain only one row.
        * @param column - The column header to check.
        * @param value - The expected value in the column.
        * @example
@@ -114,7 +113,6 @@ declare global {
 
       /**
        * Asserts that the table data has exactly the expected number of rows.
-       * @param tableData - The table data.
        * @param expectedLength - The expected number of rows.
        * @example
        * await expect(locator).toHaveTableRowCountEqualTo(tableData, 2);
@@ -123,12 +121,23 @@ declare global {
 
       /**
        * Asserts that the table data has exactly the expected number of rows.
-       * @param tableData - The table data.
        * @param expectedLength - The expected number of rows.
        * @example
        * await expect(locator).toHaveTableRowCountLessThan(tableData, 2);
        */
       toHaveTableRowCountLessThan(expectedLength: number): Promise<R>;
+
+      /**
+       * Asserts that all values in the specified column are within the given set.
+       *
+       * @param columnHeader - The column header to check.
+       * @param targetSet - Set of valid values for the column.
+       *
+       * @example
+       * const set: Set<string> = new Set(["1", "2", "3"]);
+       * await expect(locator).toHaveColumnValuesInSet("col_2", set);
+       */
+      toHaveColumnValuesInSet(columnHeader: string, targetSet: Set<string>): Promise<R>;
     }
   }
 }

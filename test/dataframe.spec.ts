@@ -64,4 +64,12 @@ test.describe('Table and Column Tests', () => {
         await expect(page.getByTestId("table1")).toHaveTableRowCountLessThan(5);
     });
 
+    test('verify toHaveColumnValuesInSet', async ({ page }) => {
+        await page.goto("/");
+    
+        const validLikesSet = new Set(['HTML tables', 'Web accessibility', 'JavaScript frameworks', 'Web performance']);
+        
+        await expect(page.getByTestId("table1")).toHaveColumnValuesInSet('Likes', validLikesSet);
+    });
+
 });
