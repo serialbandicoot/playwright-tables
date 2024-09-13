@@ -1,4 +1,4 @@
-import { GroupType } from "html-table-to-dataframe";
+import { GroupType } from 'html-table-to-dataframe';
 
 declare global {
   namespace PlaywrightTest {
