@@ -237,7 +237,7 @@ async function assertWithHandling<T extends unknown[]>(
   }
 }
 
-const playwrightTables = {
+const PlaywrightTables = {
   async toHaveTableRowCountGreaterThan(locator: Locator, expected: number, headers?: string[]) {
     return assertWithHandling(
       locator,
@@ -420,4 +420,4 @@ const playwrightTables = {
 
 export { GroupType, TableData };
 export { InteractiveDataFrame } from './interactive-dataframe';
-export { playwrightTables };
+export { PlaywrightTables };

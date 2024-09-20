@@ -1,7 +1,7 @@
-import {playwrightTables} from './src'
+import {PlaywrightTables} from './src'
 import { expect, PlaywrightTestConfig } from '@playwright/test';
 
-expect.extend(playwrightTables);
+expect.extend(PlaywrightTables);
 
 const config: PlaywrightTestConfig = {
   reporter: process.env.CI ? 'github' : 'list',
