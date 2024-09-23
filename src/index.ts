@@ -3,6 +3,7 @@ import {
   toDataFrame,
   toHaveTableRowCountGreaterThan,
   toHaveColumnValuesToMatchRegex,
+  toHaveColumnsValuesToMatchRegex,
   toHaveColumnValuesToBeInRange,
   toHaveColumnValuesToBeNumbers,
   toHaveColumnToMatchWhenFilteredBy,
@@ -45,6 +46,16 @@ declare global {
        * await expect(locator).toHaveColumnValuesMatchingRegex("ColumnName", "^\\d+$", ["Header1", "Header2"]);
        **/
       toHaveColumnValuesMatchingRegex(columnHeader: string, regexPattern: string, headers?: string[]): Promise<R>;
+
+       /**
+       * Asserts that all values in a specified column match a given regular expression.
+       * @param columnHeaders - The list of column header of the column to validate.
+       * @param regexPattern - The regular expression pattern that the column values should match.
+       * @param headers - An optional array of headers to use for the table.
+       * @example
+       * await expect(locator).toHaveColumnsValuesToMatchRegex("ColumnName", "^\\d+$", ["Header1", "Header2"]);
+       **/
+       toHaveColumnsValuesToMatchRegex(columnHeaders: string[], regexPattern: string, headers?: string[]): Promise<R>;
 
       /**
        * Asserts that all values in a specified column are within a given range.
@@ -253,6 +264,16 @@ const PlaywrightTables = {
       locator,
       (tableData) => {
         toHaveColumnValuesToMatchRegex(tableData, columnHeader, regexPattern);
+      },
+      headers,
+    );
+  },
+
+  async toHaveColumnsValuesMatchingRegex(locator: Locator, columnHeaders: string[], regexPattern: string, headers?: string[]) {
+    return assertWithHandling(
+      locator,
+      (tableData) => {
+        toHaveColumnsValuesToMatchRegex(tableData, columnHeaders, regexPattern);
       },
       headers,
     );

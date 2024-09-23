@@ -5,6 +5,7 @@ Implements Accessible Expectations from the library [html-table-to-dataframe](ht
 - toHaveTableRowCountGreaterThan
 - toHaveColumnToBeValue
 - toHaveColumnValuesToMatchRegex
+- toHaveColumnsValuesToMatchRegex
 - toHaveColumnValuesToBeInRange
 - toHaveColumnValuesToBeNumbers
 - toHaveColumnToMatchWhenFilteredBy
