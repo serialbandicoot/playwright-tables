@@ -23,16 +23,16 @@ test.describe('Table and Column Tests', () => {
         await expect(page.getByTestId("table1")).toHaveColumnValuesInRange("Age", 20, 50, ["Person", "Likes", "Age"]);
     });
 
-    test('verify toHaveColumnValuesMatchingRegex-1', async ({ page }) => {
+    test('verify toHaveColumnValuesMatchRegex', async ({ page }) => {
         await page.goto("/");
         // Testing Likes column to match any string pattern
-        await expect(page.getByTestId("table1")).toHaveColumnValuesMatchingRegex("Likes", "^[a-zA-Z\\s]+$");
+        await expect(page.getByTestId("table1")).toHaveColumnValuesMatchRegex("Likes", "^[a-zA-Z\\s]+$");
     });
 
-    test('verify toHaveColumnValuesMatchingRegex-2', async ({ page }) => {
+    test('verify toHaveColumnsValuesMatchRegex', async ({ page }) => {
         await page.goto("/");
         // Testing Likes column to match any string pattern
-        await expect(page.getByTestId("table4")).toHaveColumnsValuesMatchingRegex(["Percent1", "Percent2"], "^(100|[1-9]?[0-9])%$");
+        await expect(page.getByTestId("table4")).toHaveColumnsValuesToMatchRegex(["Percent1", "Percent2"], "^(100|[1-9]?[0-9])%$");
     });
 
     test('verify toHaveColumnValuesBeNumbers', async ({ page }) => {

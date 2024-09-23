@@ -3,7 +3,6 @@ import {
   toDataFrame,
   toHaveTableRowCountGreaterThan,
   toHaveColumnValuesToMatchRegex,
-  toHaveColumnsValuesToMatchRegex,
   toHaveColumnValuesToBeInRange,
   toHaveColumnValuesToBeNumbers,
   toHaveColumnToMatchWhenFilteredBy,
@@ -20,6 +19,7 @@ import {
   toHaveColumnValuesInSet,
   GroupType,
   TableData,
+  toHaveColumnsValuesToMatchRegex,
 } from 'html-table-to-dataframe';
 
 type DataFrame = { [key: string]: string }[] | null;
@@ -43,9 +43,9 @@ declare global {
        * @param regexPattern - The regular expression pattern that the column values should match.
        * @param headers - An optional array of headers to use for the table.
        * @example
-       * await expect(locator).toHaveColumnValuesMatchingRegex("ColumnName", "^\\d+$", ["Header1", "Header2"]);
+       * await expect(locator).toHaveColumnValuesMatchRegex("ColumnName", "^\\d+$", ["Header1", "Header2"]);
        **/
-      toHaveColumnValuesMatchingRegex(columnHeader: string, regexPattern: string, headers?: string[]): Promise<R>;
+      toHaveColumnValuesMatchRegex(columnHeader: string, regexPattern: string, headers?: string[]): Promise<R>;
 
       /**
        * Asserts that all values in a specified column match a given regular expression.
@@ -259,7 +259,7 @@ const PlaywrightTables = {
     );
   },
 
-  async toHaveColumnValuesMatchingRegex(locator: Locator, columnHeader: string, regexPattern: string, headers?: string[]) {
+  async toHaveColumnValuesMatchRegex(locator: Locator, columnHeader: string, regexPattern: string, headers?: string[]) {
     return assertWithHandling(
       locator,
       (tableData) => {
@@ -269,7 +269,7 @@ const PlaywrightTables = {
     );
   },
 
-  async toHaveColumnsValuesMatchingRegex(
+  async toHaveColumnsValuesToMatchRegex(
     locator: Locator,
     columnHeaders: string[],
     regexPattern: string,
