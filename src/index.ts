@@ -96,6 +96,23 @@ declare global {
       ): Promise<R>;
 
       /**
+       * Asserts that a column's values match a specified target when filtered by another column.
+       * @param targetColumn - The header of the column to validate.
+       * @param targetValue - The expected value in the target column.
+       * @param filterGroup - An array of filter groups specifying which columns and values to check.
+       * @param headers - An optional array of headers to use for the table.
+       * @example
+       * await expect(locator).toHaveColumnToMatchGroupWhenFilteredBy(targetColumn, targetValue, filterGroups, ["Header1", "Header2"]);
+       **/
+      toHaveColumnMatchGroupWhenFilteredBy(
+        targetColumn: string,
+        targetValue: string,
+        filterColumn: string,
+        filterGroup: GroupType[],
+        headers?: string[],
+      ): Promise<R>;
+
+      /**
        * Asserts that a column's value in a single row matches the expected value.
        * @param column - The column header to check.
        * @param value - The expected value in the column.

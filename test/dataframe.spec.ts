@@ -1,4 +1,5 @@
 import { expect, test } from '@playwright/test';
+import { GroupType } from 'html-table-to-dataframe';
 
 test.describe('Table and Column Tests', () => {
 
@@ -76,6 +77,17 @@ test.describe('Table and Column Tests', () => {
         const validLikesSet = new Set(['HTML tables', 'Web accessibility', 'JavaScript frameworks', 'Web performance']);
         
         await expect(page.getByTestId("table1")).toHaveColumnValuesInSet('Likes', validLikesSet);
+    });
+
+    test('verify toHaveColumnMatchGroupWhenFilteredBy', async ({ page }) => {
+        await page.goto("/");
+    
+        const group: GroupType[] = [
+            { filterColumn: 'Person', filterValue: 'Chris' },
+            { filterColumn: 'Likes', filterValue: 'HTML tables' },
+          ];
+        
+        await expect(page.getByTestId("table1")).toHaveColumnMatchGroupWhenFilteredBy('Age', '22', group);
     });
 
 });
