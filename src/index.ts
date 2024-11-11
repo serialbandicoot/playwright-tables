@@ -85,9 +85,9 @@ declare global {
        * @param filterValue - The value to filter the filter column by.
        * @param headers - An optional array of headers to use for the table.
        * @example
-       * await expect(locator).toHaveColumnMatchWhenFilteredBy("TargetColumn", "ExpectedValue", "FilterColumn", "FilterValue", ["Header1", "Header2"]);
+       * await expect(locator).toHaveColumnToMatchWhenFilteredBy("TargetColumn", "ExpectedValue", "FilterColumn", "FilterValue", ["Header1", "Header2"]);
        **/
-      toHaveColumnMatchWhenFilteredBy(
+      toHaveColumnToMatchWhenFilteredBy(
         targetColumn: string,
         targetValue: string,
         filterColumn: string,
@@ -107,7 +107,6 @@ declare global {
       toHaveColumnMatchGroupWhenFilteredBy(
         targetColumn: string,
         targetValue: string,
-        filterColumn: string,
         filterGroup: GroupType[],
         headers?: string[],
       ): Promise<R>;
@@ -190,6 +189,22 @@ declare global {
        * await expect(locator).toHaveColumnValuesInSet("col_2", set);
        */
       toHaveColumnValuesInSet(columnHeader: string, targetSet: Set<string>): Promise<R>;
+
+      /**
+       * Asserts that a specified column does not contain a certain value, ensuring a
+       * row is no longer available (e.g., when a record is deleted or archived).
+       *
+       * @param targetColumn - The column header to check.
+       * @param targetValue - The value that should not be present in the column.
+       *
+       * @example
+       * const tableData = [
+       *   { col_1: "1", col_2: "3" },
+       *   { col_1: "2", col_2: "1e" },
+       * ];
+       * await expect(tableData).toHaveColumnToNotMatch("col_1", "2"); 
+       */
+      toHaveColumnToNotMatch(tableData: TableData, targetColumn: string, targetValue: string): Promise<R>;
     }
   }
 }
@@ -327,7 +342,7 @@ const PlaywrightTables = {
     );
   },
 
-  async toHaveColumnMatchWhenFilteredBy(
+  async toHaveColumnToMatchWhenFilteredBy(
     locator: Locator,
     targetColumn: string,
     targetValue: string,

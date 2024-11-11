@@ -42,17 +42,17 @@ test.describe('Table and Column Tests', () => {
         await expect(page.getByTestId("table1")).toHaveColumnValuesBeNumbers("Age");
     });
 
-    test('verify toHaveColumnMatchWhenFilteredBy', async ({ page }) => {
+    test('verify toHaveColumnToMatchWhenFilteredBy', async ({ page }) => {
         await page.goto("/");
         // Verify filtering by person "Dennis", age should be 45
-        await expect(page.getByTestId("table1")).toHaveColumnMatchWhenFilteredBy("Age", "45", "Person", "Dennis", ["Person", "Likes", "Age"]);
+        await expect(page.getByTestId("table1")).toHaveColumnToMatchWhenFilteredBy("Age", "45", "Person", "Dennis", ["Person", "Likes", "Age"]);
     });
 
-    test('verify toHaveColumnMatchWhenFilteredBy Fails', async ({ page }) => {
+    test('verify toHaveColumnToMatchWhenFilteredBy Fails', async ({ page }) => {
         await page.goto("/");
         try {
             // This will fail as "John" is not present in the table
-            await expect(page.getByTestId("table1")).toHaveColumnMatchWhenFilteredBy("Age", "30", "Person", "John", ["Person", "Likes", "Age"]);
+            await expect(page.getByTestId("table1")).toHaveColumnToMatchWhenFilteredBy("Age", "30", "Person", "John", ["Person", "Likes", "Age"]);
         } catch (error) {
             const errorMessage = error.message;
             expect(errorMessage).toContain("Column header \"Person\" with value \"John\" was not found! For [{\"Person\":\"Chris\",\"Likes\":\"HTML tables\",\"Age\":\"22\"},{\"Person\":\"Dennis\",\"Likes\":\"Web accessibility\",\"Age\":\"45\"},{\"Person\":\"Sarah\",\"Likes\":\"JavaScript frameworks\",\"Age\":\"29\"},{\"Person\":\"Karen\",\"Likes\":\"Web performance\",\"Age\":\"36\"}]."); // Add proper assertion here
