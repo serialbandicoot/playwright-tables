@@ -291,7 +291,12 @@ const PlaywrightTables = {
     );
   },
 
-  async toHaveColumnValuesMatchRegex(locator: Locator, columnHeader: string, regexPattern: string, options?: DataFrameOptions) {
+  async toHaveColumnValuesMatchRegex(
+    locator: Locator,
+    columnHeader: string,
+    regexPattern: string,
+    options?: DataFrameOptions,
+  ) {
     return assertWithHandling(
       locator,
       (tableData) => {
