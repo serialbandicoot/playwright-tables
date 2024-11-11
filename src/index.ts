@@ -204,12 +204,17 @@ declare global {
        * ];
        * await expect(tableData).toHaveColumnToNotMatch("col_1", "2");
        */
-      toHaveColumnToNotMatch(tableData: TableData, targetColumn: string, targetValue: string): Promise<R>;
+      toHaveColumnToNotMatch(targetColumn: string, targetValue: string): Promise<R>;
     }
   }
 }
 
-export async function getDataFrame(locator: Locator, headers?: string[]): Promise<DataFrame> {
+export type DataFrameOptions = {
+  header?: string[];
+  footer?: boolean;
+};
+
+export async function getDataFrame(locator: Locator, options?: DataFrameOptions): Promise<DataFrame> {
   const updatedHtml = await locator.evaluate((element) => {
     // Function to recursively recreate the HTML for each element, including updated input values
     const getUpdatedHTML = (el: Element): string => {
@@ -241,7 +246,7 @@ export async function getDataFrame(locator: Locator, headers?: string[]): Promis
   });
 
   // Now that we have the updated HTML, pass it to toDataFrame as before
-  return toDataFrame(updatedHtml, headers);
+  return toDataFrame(updatedHtml, options);
 }
 
 type AssertionFn<T extends unknown[]> = (tableData: { [key: string]: string }[], ...args: T) => void;
@@ -249,21 +254,16 @@ type AssertionFn<T extends unknown[]> = (tableData: { [key: string]: string }[],
 async function assertWithHandling<T extends unknown[]>(
   locator: Locator,
   assertionFn: AssertionFn<T>,
-  headers?: string[],
+  options?: DataFrameOptions,
   ...args: T
 ): Promise<{ message: () => string; pass: boolean }> {
-  const dataFrame = await getDataFrame(locator, headers);
+  const dataFrame = await getDataFrame(locator, options);
 
   if (!dataFrame || dataFrame.length === 0) {
     return {
       message: () => 'DataFrame is null or empty',
       pass: false,
     };
-  }
-
-  // If headers are not provided, derive them from the first row of the DataFrame
-  if (!headers || headers.length === 0) {
-    headers = Object.keys(dataFrame[0]);
   }
 
   try {
@@ -281,23 +281,23 @@ async function assertWithHandling<T extends unknown[]>(
 }
 
 const PlaywrightTables = {
-  async toHaveTableRowCountGreaterThan(locator: Locator, expected: number, headers?: string[]) {
+  async toHaveTableRowCountGreaterThan(locator: Locator, expected: number, options?: DataFrameOptions) {
     return assertWithHandling(
       locator,
       (tableData) => {
         toHaveTableRowCountGreaterThan(tableData, expected);
       },
-      headers,
+      options,
     );
   },
 
-  async toHaveColumnValuesMatchRegex(locator: Locator, columnHeader: string, regexPattern: string, headers?: string[]) {
+  async toHaveColumnValuesMatchRegex(locator: Locator, columnHeader: string, regexPattern: string, options?: DataFrameOptions) {
     return assertWithHandling(
       locator,
       (tableData) => {
         toHaveColumnValuesToMatchRegex(tableData, columnHeader, regexPattern);
       },
-      headers,
+      options,
     );
   },
 
@@ -305,14 +305,14 @@ const PlaywrightTables = {
     locator: Locator,
     columnHeaders: string[],
     regexPattern: string,
-    headers?: string[],
+    options?: DataFrameOptions,
   ) {
     return assertWithHandling(
       locator,
       (tableData) => {
         toHaveColumnsValuesToMatchRegex(tableData, columnHeaders, regexPattern);
       },
-      headers,
+      options,
     );
   },
 
@@ -321,24 +321,24 @@ const PlaywrightTables = {
     columnHeader: string,
     minValue: number,
     maxValue: number,
-    headers?: string[],
+    options?: DataFrameOptions,
   ) {
     return assertWithHandling(
       locator,
       (tableData) => {
         toHaveColumnValuesToBeInRange(tableData, columnHeader, minValue, maxValue);
       },
-      headers,
+      options,
     );
   },
 
-  async toHaveColumnValuesBeNumbers(locator: Locator, columnHeader: string, headers?: string[]) {
+  async toHaveColumnValuesBeNumbers(locator: Locator, columnHeader: string, options?: DataFrameOptions) {
     return assertWithHandling(
       locator,
       (tableData) => {
         toHaveColumnValuesToBeNumbers(tableData, columnHeader);
       },
-      headers,
+      options,
     );
   },
 
@@ -348,14 +348,14 @@ const PlaywrightTables = {
     targetValue: string,
     filterColumn: string,
     filterValue: string,
-    headers?: string[],
+    options?: DataFrameOptions,
   ) {
     return assertWithHandling(
       locator,
       (tableData) => {
         toHaveColumnToMatchWhenFilteredBy(tableData, targetColumn, targetValue, filterColumn, filterValue);
       },
-      headers,
+      options,
     );
   },
 
@@ -364,114 +364,114 @@ const PlaywrightTables = {
     targetColumn: string,
     targetValue: string,
     filterGroups: GroupType[],
-    headers?: string[],
+    options?: DataFrameOptions,
   ) {
     return assertWithHandling(
       locator,
       (tableData) => {
         toHaveColumnToMatchGroupWhenFilteredBy(tableData, targetColumn, targetValue, filterGroups);
       },
-      headers,
+      options,
     );
   },
 
-  async toHaveColumnToNotMatch(locator: Locator, columnHeader: string, value: string, headers?: string[]) {
+  async toHaveColumnToNotMatch(locator: Locator, columnHeader: string, value: string, options?: DataFrameOptions) {
     return assertWithHandling(
       locator,
       (tableData) => {
         toHaveColumnToNotMatch(tableData, columnHeader, value);
       },
-      headers,
+      options,
     );
   },
 
-  async toHaveTableRowCount(locator: Locator, expected: number, headers?: string[]) {
+  async toHaveTableRowCount(locator: Locator, expected: number, options?: DataFrameOptions) {
     return assertWithHandling(
       locator,
       (tableData) => {
         toHaveTableRowCount(tableData, expected);
       },
-      headers,
+      options,
     );
   },
 
-  async toHaveColumnGroupToBeValue(locator: Locator, filterGroups: GroupType[], headers?: string[]) {
+  async toHaveColumnGroupToBeValue(locator: Locator, filterGroups: GroupType[], options?: DataFrameOptions) {
     return assertWithHandling(
       locator,
       (tableData) => {
         toHaveColumnGroupToBeValue(tableData, filterGroups);
       },
-      headers,
+      options,
     );
   },
 
-  async toHaveColumnGroupToBeValues(locator: Locator, filterGroupsList: GroupType[][], headers?: string[]) {
+  async toHaveColumnGroupToBeValues(locator: Locator, filterGroupsList: GroupType[][], options?: DataFrameOptions) {
     return assertWithHandling(
       locator,
       (tableData) => {
         toHaveColumnGroupToBeValues(tableData, filterGroupsList);
       },
-      headers,
+      options,
     );
   },
 
-  async toHaveColumnToBeValue(locator: Locator, column: string, value: string, headers?: string[]) {
+  async toHaveColumnToBeValue(locator: Locator, column: string, value: string, options?: DataFrameOptions) {
     return assertWithHandling(
       locator,
       (tableData) => {
         toHaveColumnToBeValue(tableData, column, value);
       },
-      headers,
+      options,
     );
   },
 
-  async toHaveTableToNotMatch(locator: Locator, tableData: TableData, headers?: string[]) {
+  async toHaveTableToNotMatch(locator: Locator, tableData: TableData, options?: DataFrameOptions) {
     return assertWithHandling(
       locator,
       (dataFrame) => {
         toHaveTableToNotMatch(dataFrame, tableData);
       },
-      headers,
+      options,
     );
   },
 
-  async toHaveTableToMatch(locator: Locator, tableData: TableData, headers?: string[]) {
+  async toHaveTableToMatch(locator: Locator, tableData: TableData, options?: DataFrameOptions) {
     return assertWithHandling(
       locator,
       (dataFrame) => {
         toHaveTableToMatch(dataFrame, tableData);
       },
-      headers,
+      options,
     );
   },
 
-  async toHaveTableRowCountEqualTo(locator: Locator, expectedLength: number, headers?: string[]) {
+  async toHaveTableRowCountEqualTo(locator: Locator, expectedLength: number, options?: DataFrameOptions) {
     return assertWithHandling(
       locator,
       (dataFrame) => {
         toHaveTableRowCountEqualTo(dataFrame, expectedLength);
       },
-      headers,
+      options,
     );
   },
 
-  async toHaveTableRowCountLessThan(locator: Locator, expectedLength: number, headers?: string[]) {
+  async toHaveTableRowCountLessThan(locator: Locator, expectedLength: number, options?: DataFrameOptions) {
     return assertWithHandling(
       locator,
       (dataFrame) => {
         toHaveTableRowCountLessThan(dataFrame, expectedLength);
       },
-      headers,
+      options,
     );
   },
 
-  async toHaveColumnValuesInSet(locator: Locator, columnHeader: string, targetSet: Set<string>, headers?: string[]) {
+  async toHaveColumnValuesInSet(locator: Locator, columnHeader: string, targetSet: Set<string>, options?: DataFrameOptions) {
     return assertWithHandling(
       locator,
       (tableData) => {
         toHaveColumnValuesInSet(tableData, columnHeader, targetSet);
       },
-      headers,
+      options,
     );
   },
 };
