@@ -202,7 +202,7 @@ declare global {
        *   { col_1: "1", col_2: "3" },
        *   { col_1: "2", col_2: "1e" },
        * ];
-       * await expect(tableData).toHaveColumnToNotMatch("col_1", "2"); 
+       * await expect(tableData).toHaveColumnToNotMatch("col_1", "2");
        */
       toHaveColumnToNotMatch(tableData: TableData, targetColumn: string, targetValue: string): Promise<R>;
     }
