@@ -20,6 +20,7 @@ import {
   GroupType,
   TableData,
   toHaveColumnsValuesToMatchRegex,
+  DataFrameOptions,
 } from 'html-table-to-dataframe';
 
 type DataFrame = { [key: string]: string }[] | null;
@@ -31,51 +32,56 @@ declare global {
       /**
        * Asserts that the table's row count is greater than the specified number.
        * @param expected - The minimum number of rows expected.
-       * @param headers - An optional array of headers to use for the table.
+       * @param options: - Options for header and footer
        * @example
-       * await expect(locator).toHaveTableRowCountGreaterThan(5, ["Header1", "Header2"]);
+       * await expect(locator).toHaveTableRowCountGreaterThan(5, {header: ["Header1", "Header2"]});
        **/
-      toHaveTableRowCountGreaterThan(expected: number, headers?: string[]): Promise<R>;
+      toHaveTableRowCountGreaterThan(expected: number, options?: DataFrameOptions): Promise<R>;
 
       /**
        * Asserts that all values in a specified column match a given regular expression.
        * @param columnHeader - The header of the column to validate.
        * @param regexPattern - The regular expression pattern that the column values should match.
-       * @param headers - An optional array of headers to use for the table.
+       * @param options: - Options for header and footer
        * @example
-       * await expect(locator).toHaveColumnValuesMatchRegex("ColumnName", "^\\d+$", ["Header1", "Header2"]);
+       * await expect(locator).toHaveColumnValuesMatchRegex("ColumnName", "^\\d+$", {header: ["Header1", "Header2"]});
        **/
-      toHaveColumnValuesMatchRegex(columnHeader: string, regexPattern: string, headers?: string[]): Promise<R>;
+      toHaveColumnValuesMatchRegex(columnHeader: string, regexPattern: string, options?: DataFrameOptions): Promise<R>;
 
       /**
        * Asserts that all values in a specified column match a given regular expression.
        * @param columnHeaders - The list of column header of the column to validate.
        * @param regexPattern - The regular expression pattern that the column values should match.
-       * @param headers - An optional array of headers to use for the table.
+       * @param options: - Options for header and footer
        * @example
-       * await expect(locator).toHaveColumnsValuesToMatchRegex("ColumnName", "^\\d+$", ["Header1", "Header2"]);
+       * await expect(locator).toHaveColumnsValuesToMatchRegex("ColumnName", "^\\d+$", {header: ["Header1", "Header2"]});
        **/
-      toHaveColumnsValuesToMatchRegex(columnHeaders: string[], regexPattern: string, headers?: string[]): Promise<R>;
+      toHaveColumnsValuesToMatchRegex(columnHeaders: string[], regexPattern: string, options?: DataFrameOptions): Promise<R>;
 
       /**
        * Asserts that all values in a specified column are within a given range.
        * @param columnHeader - The header of the column to validate.
        * @param minValue - The minimum value allowed in the column.
        * @param maxValue - The maximum value allowed in the column.
-       * @param headers - An optional array of headers to use for the table.
+       * @param options: - Options for header and footer
        * @example
-       * await expect(locator).toHaveColumnValuesInRange("Age", 18, 65, ["Header1", "Header2"]);
+       * await expect(locator).toHaveColumnValuesInRange("Age", 18, 65, {header: ["Header1", "Header2"]});
        **/
-      toHaveColumnValuesInRange(columnHeader: string, minValue: number, maxValue: number, headers?: string[]): Promise<R>;
+      toHaveColumnValuesInRange(
+        columnHeader: string,
+        minValue: number,
+        maxValue: number,
+        options?: DataFrameOptions,
+      ): Promise<R>;
 
       /**
        * Asserts that all values in a specified column are numbers.
        * @param columnHeader - The header of the column to validate.
-       * @param headers - An optional array of headers to use for the table.
+       * @param options: - Options for header and footer
        * @example
-       * await expect(locator).toHaveColumnValuesBeNumbers("Price", ["Header1", "Header2"]);
+       * await expect(locator).toHaveColumnValuesBeNumbers("Price", {header: ["Header1", "Header2"]});
        **/
-      toHaveColumnValuesBeNumbers(columnHeader: string, headers?: string[]): Promise<R>;
+      toHaveColumnValuesBeNumbers(columnHeader: string, options?: DataFrameOptions): Promise<R>;
 
       /**
        * Asserts that a column's values match a specified target when filtered by another column.
@@ -83,16 +89,16 @@ declare global {
        * @param targetValue - The expected value in the target column.
        * @param filterColumn - The header of the column to filter by.
        * @param filterValue - The value to filter the filter column by.
-       * @param headers - An optional array of headers to use for the table.
+       * @param options: - Options for header and footer
        * @example
-       * await expect(locator).toHaveColumnToMatchWhenFilteredBy("TargetColumn", "ExpectedValue", "FilterColumn", "FilterValue", ["Header1", "Header2"]);
+       * await expect(locator).toHaveColumnToMatchWhenFilteredBy("TargetColumn", "ExpectedValue", "FilterColumn", "FilterValue", {header: ["Header1", "Header2"]});
        **/
       toHaveColumnToMatchWhenFilteredBy(
         targetColumn: string,
         targetValue: string,
         filterColumn: string,
         filterValue: string,
-        headers?: string[],
+        options?: DataFrameOptions,
       ): Promise<R>;
 
       /**
@@ -100,15 +106,15 @@ declare global {
        * @param targetColumn - The header of the column to validate.
        * @param targetValue - The expected value in the target column.
        * @param filterGroup - An array of filter groups specifying which columns and values to check.
-       * @param headers - An optional array of headers to use for the table.
+       * @param options: - Options for header and footer
        * @example
-       * await expect(locator).toHaveColumnToMatchGroupWhenFilteredBy(targetColumn, targetValue, filterGroups, ["Header1", "Header2"]);
+       * await expect(locator).toHaveColumnToMatchGroupWhenFilteredBy(targetColumn, targetValue, filterGroups, {header: {header: ["Header1", "Header2"]}});
        **/
       toHaveColumnMatchGroupWhenFilteredBy(
         targetColumn: string,
         targetValue: string,
         filterGroup: GroupType[],
-        headers?: string[],
+        options?: DataFrameOptions,
       ): Promise<R>;
 
       /**
@@ -119,7 +125,7 @@ declare global {
        * const tableData = [{ col_1: '1', col_2: '3' }];
        * await expect(locator).toHaveColumnToBeValue(tableData, 'col_2', '3');
        **/
-      toHaveColumnToBeValue(column: string, value: string): Promise<R>;
+      toHaveColumnToBeValue(column: string, value: string, options?: DataFrameOptions): Promise<R>;
 
       /**
        * Asserts that a column's value in a single row matches the expected value for a group of filters.
@@ -129,7 +135,7 @@ declare global {
        * const filterGroup = [{ filterColumn: "col_2", filterValue: "3" }];
        * await expect(locator).toHaveColumnGroupToBeValue(tableData, filterGroup);
        **/
-      toHaveColumnGroupToBeValue(filterGroup: GroupType[]): Promise<R>;
+      toHaveColumnGroupToBeValue(filterGroup: GroupType[], options?: DataFrameOptions): Promise<R>;
 
       /**
        * Asserts that column values in multiple rows match expected values for a group of filters.
@@ -142,7 +148,7 @@ declare global {
        * ];
        * await expect(locator).toHaveColumnGroupToBeValues(tableData, filterGroups);
        **/
-      toHaveColumnGroupToBeValues(filterGroups: GroupType[][]): Promise<R>;
+      toHaveColumnGroupToBeValues(filterGroups: GroupType[][], options?: DataFrameOptions): Promise<R>;
 
       /**
        * Asserts that a table does not match another table's key/value pairs.
@@ -151,7 +157,11 @@ declare global {
        * @example
        * await expect(locator).toHaveTableToNotMatch(tableData1, tableData2);
        **/
-      toHaveTableToNotMatch(tableData1: { [key: string]: string }[], tableData2: { [key: string]: string }[]): Promise<R>;
+      toHaveTableToNotMatch(
+        tableData1: { [key: string]: string }[],
+        tableData2: { [key: string]: string }[],
+        options?: DataFrameOptions,
+      ): Promise<R>;
 
       /**
        * Asserts that a table matches another table's key/value pairs.
@@ -160,7 +170,11 @@ declare global {
        * @example
        * await expect(locator).toHaveTableToMatch(tableData1, tableData2);
        **/
-      toHaveTableToMatch(tableData1: { [key: string]: string }[], tableData2: { [key: string]: string }[]): Promise<R>;
+      toHaveTableToMatch(
+        tableData1: { [key: string]: string }[],
+        tableData2: { [key: string]: string }[],
+        options?: DataFrameOptions,
+      ): Promise<R>;
 
       /**
        * Asserts that the table data has exactly the expected number of rows.
@@ -168,7 +182,7 @@ declare global {
        * @example
        * await expect(locator).toHaveTableRowCountEqualTo(tableData, 2);
        */
-      toHaveTableRowCountEqualTo(expectedLength: number): Promise<R>;
+      toHaveTableRowCountEqualTo(expectedLength: number, options?: DataFrameOptions): Promise<R>;
 
       /**
        * Asserts that the table data has exactly the expected number of rows.
@@ -176,7 +190,7 @@ declare global {
        * @example
        * await expect(locator).toHaveTableRowCountLessThan(tableData, 2);
        */
-      toHaveTableRowCountLessThan(expectedLength: number): Promise<R>;
+      toHaveTableRowCountLessThan(expectedLength: number, options?: DataFrameOptions): Promise<R>;
 
       /**
        * Asserts that all values in the specified column are within the given set.
@@ -188,7 +202,7 @@ declare global {
        * const set: Set<string> = new Set(["1", "2", "3"]);
        * await expect(locator).toHaveColumnValuesInSet("col_2", set);
        */
-      toHaveColumnValuesInSet(columnHeader: string, targetSet: Set<string>): Promise<R>;
+      toHaveColumnValuesInSet(columnHeader: string, targetSet: Set<string>, options?: DataFrameOptions): Promise<R>;
 
       /**
        * Asserts that a specified column does not contain a certain value, ensuring a
@@ -204,15 +218,10 @@ declare global {
        * ];
        * await expect(tableData).toHaveColumnToNotMatch("col_1", "2");
        */
-      toHaveColumnToNotMatch(targetColumn: string, targetValue: string): Promise<R>;
+      toHaveColumnToNotMatch(targetColumn: string, targetValue: string, options?: DataFrameOptions): Promise<R>;
     }
   }
 }
-
-export type DataFrameOptions = {
-  header?: string[];
-  footer?: boolean;
-};
 
 export async function getDataFrame(locator: Locator, options?: DataFrameOptions): Promise<DataFrame> {
   const updatedHtml = await locator.evaluate((element) => {
@@ -481,6 +490,6 @@ const PlaywrightTables = {
   },
 };
 
-export { GroupType, TableData };
+export { GroupType, TableData, DataFrameOptions };
 export { InteractiveDataFrame } from './interactive-dataframe';
 export { PlaywrightTables };
