@@ -230,7 +230,7 @@ export async function getDataFrame(locator: Locator, options?: DataFrameOptions)
       if (el instanceof HTMLSelectElement || el instanceof HTMLTextAreaElement) {
         return el.value;
       }
-      
+
       if (el instanceof HTMLInputElement) {
         // For input/textarea elements, overwrite the "value" attribute with the live value
         const attributes = Array.from(el.attributes)
@@ -257,7 +257,7 @@ export async function getDataFrame(locator: Locator, options?: DataFrameOptions)
     // Call the recursive function for the root element
     return getUpdatedHTML(element);
   });
-  
+
   // Now that we have the updated HTML, pass it to toDataFrame as before
   return toDataFrame(updatedHtml, options);
 }

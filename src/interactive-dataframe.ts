@@ -1,6 +1,5 @@
 import { Locator, Page } from '@playwright/test';
 import { DataFrame, toInteractiveDataFrame, LocatorID, Attributes } from 'html-table-to-dataframe';
-import { CellLocatorId } from '.';
 
 export class InteractiveDataFrame {
   private page: Page;
@@ -18,7 +17,7 @@ export class InteractiveDataFrame {
     const valueStr = value.toString();
     await locator.fill(valueStr);
     await locator.evaluate((el) => el.blur());
-    }
+  }
 
   async toggleButton(row: number, key: string, state: 'on' | 'off' = 'on') {
     const locator = await this.getLocator(row, key);
@@ -29,12 +28,11 @@ export class InteractiveDataFrame {
     }
   }
 
-  async selectByKey(row: number, key: string, optionValue: string,
-  ) {
+  async selectByKey(row: number, key: string, optionValue: string) {
     const locator = await this.getLocator(row, key);
-    await locator.click()
+    await locator.click();
 
-    await locator.selectOption({ value: optionValue })
+    await locator.selectOption({ value: optionValue });
   }
 
   private async getLocator(row: number, key: string) {
