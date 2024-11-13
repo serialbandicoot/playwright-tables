@@ -1,21 +1,24 @@
 import { Locator, Page } from '@playwright/test';
 import { DataFrame, toInteractiveDataFrame, LocatorID, Attributes } from 'html-table-to-dataframe';
+import { CellLocatorId } from '.';
 
 export class InteractiveDataFrame {
   private page: Page;
   readonly tableLocator: Locator;
+  readonly cellLocator: string | undefined;
 
-  constructor(page: Page, tableLocator: Locator) {
+  constructor(page: Page, tableLocator: Locator, cellLocator?: string) {
     this.page = page;
     this.tableLocator = tableLocator;
+    this.cellLocator = cellLocator;
   }
 
   async enterByKey(row: number, key: string, value: string | number) {
     const locator = await this.getLocator(row, key);
     const valueStr = value.toString();
     await locator.fill(valueStr);
-    await this.page.keyboard.press('Tab');
-  }
+    await locator.evaluate((el) => el.blur());
+    }
 
   async toggleButton(row: number, key: string, state: 'on' | 'off' = 'on') {
     const locator = await this.getLocator(row, key);
@@ -24,6 +27,14 @@ export class InteractiveDataFrame {
     if ((activeState === 'false' && state === 'on') || (activeState === 'true' && state === 'off')) {
       await locator.click();
     }
+  }
+
+  async selectByKey(row: number, key: string, optionValue: string,
+  ) {
+    const locator = await this.getLocator(row, key);
+    await locator.click()
+
+    await locator.selectOption({ value: optionValue })
   }
 
   private async getLocator(row: number, key: string) {
@@ -43,11 +54,14 @@ export class InteractiveDataFrame {
     const cell = rowLocator[key] as LocatorID;
     const attributes = cell.attributes as Attributes;
 
-    const dataTestId = attributes['data-test-id'];
+    let dataTestId = undefined;
+    if (this.cellLocator) {
+      dataTestId = attributes[this.cellLocator];
+    }
     const id = attributes['id'];
     const name = attributes['name'];
 
-    if (attributes['data-test-id']) {
+    if (dataTestId) {
       return this.tableLocator.getByTestId(dataTestId);
     } else if (id) {
       return this.tableLocator.locator(`#${id}`);

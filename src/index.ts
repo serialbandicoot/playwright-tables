@@ -227,14 +227,18 @@ export async function getDataFrame(locator: Locator, options?: DataFrameOptions)
   const updatedHtml = await locator.evaluate((element) => {
     // Function to recursively recreate the HTML for each element, including updated input values
     const getUpdatedHTML = (el: Element): string => {
-      if (el instanceof HTMLInputElement || el instanceof HTMLTextAreaElement) {
+      if (el instanceof HTMLSelectElement || el instanceof HTMLTextAreaElement) {
+        return el.value;
+      }
+      
+      if (el instanceof HTMLInputElement) {
         // For input/textarea elements, overwrite the "value" attribute with the live value
         const attributes = Array.from(el.attributes)
           .filter((attr) => attr.name !== 'value') // Remove any existing 'value' attribute
           .map((attr) => `${attr.name}="${attr.value}"`)
           .join(' ');
 
-        // Return the tag with the updated value for inputs and textareas
+        // Return the tag with the updated value for inputs
         return `<${el.tagName.toLowerCase()} ${attributes} value="${el.value}"></${el.tagName.toLowerCase()}>`;
       } else {
         // Rebuild the HTML for non-input elements
@@ -253,7 +257,7 @@ export async function getDataFrame(locator: Locator, options?: DataFrameOptions)
     // Call the recursive function for the root element
     return getUpdatedHTML(element);
   });
-
+  
   // Now that we have the updated HTML, pass it to toDataFrame as before
   return toDataFrame(updatedHtml, options);
 }
