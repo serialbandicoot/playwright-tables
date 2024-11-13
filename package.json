@@ -64,7 +64,7 @@
     },
     "dependencies": {
         "expect": "^29.6.2",
-        "html-table-to-dataframe": "^1.0.31"
+        "html-table-to-dataframe": "^1.0.32"
     },
     "peerDependencies": {
         "@playwright/test": "^1.47.1"
