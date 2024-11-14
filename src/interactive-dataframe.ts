@@ -45,7 +45,7 @@ export class InteractiveDataFrame {
    *                                                      - `"tailwind"`: Select from a Tailwind CSS dropdown.
    *                                                      - If omitted, defaults to a standard HTML dropdown.
    */
-  
+
   async selectByKey(row: number, key: string, optionValue: string, framework?: 'angular-mat' | 'tailwind') {
     const locator = await this.getLocator(row, key);
     await locator.click();
