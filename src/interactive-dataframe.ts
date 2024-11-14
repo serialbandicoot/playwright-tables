@@ -28,11 +28,36 @@ export class InteractiveDataFrame {
     }
   }
 
-  async selectByKey(row: number, key: string, optionValue: string) {
+  /**
+   * Selects an option from a table cell based on a given row and key.
+   *
+   * This method simulates the selection of a dropdown option. It interacts with different dropdown types
+   * based on the provided `framework` parameter:
+   * - If `framework` is `"angular-mat"`, it selects an option from an Angular Material dropdown (`mat-option`).
+   * - If `framework` is `"tailwind"`, it assumes a Tailwind CSS dropdown and selects the option accordingly.
+   * - If `framework` is not provided or is not one of the above, it defaults to interacting with a regular HTML `<select>` dropdown.
+   *
+   * @param {number} row - The row number in the table where the dropdown is located.
+   * @param {string} key - The key used to identify the column in the table (used to find the specific cell).
+   * @param {string} optionValue - The value of the option to select.
+   * @param {("angular-mat" | "tailwind")?} framework - The framework type:
+   *                                                      - `"angular-mat"`: Select from an Angular Material dropdown.
+   *                                                      - `"tailwind"`: Select from a Tailwind CSS dropdown.
+   *                                                      - If omitted, defaults to a standard HTML dropdown.
+   */
+  
+  async selectByKey(row: number, key: string, optionValue: string, framework?: 'angular-mat' | 'tailwind') {
     const locator = await this.getLocator(row, key);
     await locator.click();
 
-    await locator.selectOption({ value: optionValue });
+    if (framework === 'angular-mat' || framework === 'tailwind') {
+      // If the framework is either Angular Material or Tailwind, select the option
+      const optionLocator = this.page.locator(`.mat-option >> text="${optionValue}"`);
+      await optionLocator.click();
+    } else {
+      // For other cases (default dropdown), use selectOption for normal dropdowns
+      await locator.selectOption({ value: optionValue });
+    }
   }
 
   private async getLocator(row: number, key: string) {

@@ -13,13 +13,9 @@ test.describe('Table and Column Tests Interactive', () => {
         await tablePage.table2.enterByKey(0, "Likes", "Going Loco");
         await tablePage.table2.enterByKey(0, "Age", 999);
 
-        const group: GroupType[] = [
-            { filterColumn: "Person", filterValue: "Karen" },
-            { filterColumn: "Likes", filterValue:  "Going Loco"},
-          ];
         await expect(tablePage.table2Locator).toHaveColumnToBeValue("Age", "999")
         await expect(tablePage.table2Locator).toHaveColumnToBeValue("Likes", "Going Loco")
         await expect(tablePage.table2Locator).toHaveColumnToBeValue("Person", "Karen")
-    });   
+    });     
 
 });
