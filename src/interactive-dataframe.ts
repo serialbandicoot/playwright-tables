@@ -46,13 +46,13 @@ export class InteractiveDataFrame {
    *                                                      - If omitted, defaults to a standard HTML dropdown.
    */
 
-  async selectByKey(row: number, key: string, optionValue: string, framework?: 'angular-mat' | 'tailwind') {
+  async selectByKey(row: number, key: string, optionValue: string, framework?: 'angular-mat') {
     const locator = await this.getLocator(row, key);
     await locator.click();
 
-    if (framework === 'angular-mat' || framework === 'tailwind') {
-      // If the framework is either Angular Material or Tailwind, select the option
-      const optionLocator = this.page.locator(`.mat-option >> text="${optionValue}"`);
+    if (framework === 'angular-mat') {
+      // mat-option not connected to the parent and separate in the DOM
+      const optionLocator = this.page.locator(`mat-option[role="option"]:has-text("${optionValue}")`);
       await optionLocator.click();
     } else {
       // For other cases (default dropdown), use selectOption for normal dropdowns
