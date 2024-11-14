@@ -4,12 +4,12 @@ import { DataFrame, toInteractiveDataFrame, LocatorID, Attributes } from 'html-t
 export class InteractiveDataFrame {
   private page: Page;
   readonly tableLocator: Locator;
-  readonly cellLocator: string | undefined;
+  readonly testId: string | undefined;
 
   constructor(page: Page, tableLocator: Locator, cellLocator?: string) {
     this.page = page;
     this.tableLocator = tableLocator;
-    this.cellLocator = cellLocator;
+    this.testId = cellLocator;
   }
 
   async enterByKey(row: number, key: string, value: string | number) {
@@ -52,7 +52,7 @@ export class InteractiveDataFrame {
 
     if (framework === 'angular-mat') {
       // mat-option not connected to the parent and separate in the DOM
-      const optionLocator = this.page.locator(`mat-option[role="option"]:text("${optionValue}")`);
+      const optionLocator = this.page.locator(`mat-option[role="option"] :text-is("${optionValue}")`);
       await optionLocator.click();
     } else {
       // For other cases (default dropdown), use selectOption for normal dropdowns
@@ -72,14 +72,14 @@ export class InteractiveDataFrame {
       throw new Error(`${key} was not found check header!`);
     }
 
-    // Get the correct Locator using preferred data-test-id/id
+    // Get the correct Locator using preferred testId
     // https://github.com/microsoft/playwright/pull/32506
     const cell = rowLocator[key] as LocatorID;
     const attributes = cell.attributes as Attributes;
 
     let dataTestId = undefined;
-    if (this.cellLocator) {
-      dataTestId = attributes[this.cellLocator];
+    if (this.testId) {
+      dataTestId = attributes[this.testId];
     }
     const id = attributes['id'];
     const name = attributes['name'];
@@ -91,7 +91,7 @@ export class InteractiveDataFrame {
     } else if (name) {
       return this.tableLocator.locator(`[name="${name}"]`);
     } else {
-      throw new Error('Neither data-test-id, id, nor name found in attributes.');
+      throw new Error('Neither testId, id, or name found in attributes.');
     }
   }
 
