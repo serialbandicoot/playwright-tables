@@ -52,7 +52,7 @@ export class InteractiveDataFrame {
 
     if (framework === 'angular-mat') {
       // mat-option not connected to the parent and separate in the DOM
-      const optionLocator = this.page.locator(`mat-option[role="option"]:has-text("${optionValue}")`);
+      const optionLocator = this.page.locator(`mat-option[role="option"]:text("${optionValue}")`);
       await optionLocator.click();
     } else {
       // For other cases (default dropdown), use selectOption for normal dropdowns
