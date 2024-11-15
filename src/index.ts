@@ -494,6 +494,93 @@ const PlaywrightTables = {
   },
 };
 
-export { GroupType, TableData, DataFrameOptions };
+const findByRow = async (locator: Locator, targetColumn: string, targetValue: string | null | undefined) => {
+  const dataFrame = await getDataFrame(locator);
+  if (!dataFrame) {
+    throw new Error('DataTable cannot be undefined!');
+  }
+
+  if (!targetValue) {
+    throw new Error('Target value cannot be undefined!');
+  }
+
+  const index = dataFrame.findIndex((item) => item[targetColumn] === targetValue);
+  if (index === -1) {
+    console.log(`Proceeding; Column header "${targetColumn}" with "${targetValue}" was not found! Returning '-1'"`);
+    return -1;
+  }
+  return index;
+};
+
+const clickRow = async (locator: Locator, rowIndex: number) => {
+  const count = await locator.locator('tbody tr').count();
+  if (rowIndex + 1 > count) {
+    throw new Error(`Row Index is greater than table rows (${count})`);
+  }
+  await locator.locator('tbody tr').nth(rowIndex).click();
+};
+
+const clickBy = async (locator: Locator, targetColumn: string, targetValue: string | null | undefined) => {
+  const index = await findByRow(locator, targetColumn, targetValue);
+  await clickRow(locator, index);
+};
+
+const tableAsString = (table: { [key: string]: string }[]) => {
+  return table
+    .map((obj) =>
+      Object.entries(obj)
+        .map(([key, value]) => `${key}: ${value}`)
+        .join(''),
+    )
+    .join('');
+};
+
+const expectTableToMatch = (tableData1: DataFrame, tableData2: DataFrame) => {
+  if (!tableData1 || !tableData2) {
+    throw new Error('Table data cannot be null');
+  }
+
+  if (tableData1.length !== tableData2.length) {
+    throw new Error(`Tables are not valid Table1: ${tableData1.length} Vs Table2: ${tableData2.length}`);
+  }
+
+  if (tableData1.length === 0 || tableData2.length === 0) {
+    throw new Error(`Rows cannot be empty`);
+  }
+
+  if (tableAsString(tableData1) !== tableAsString(tableData2)) {
+    throw new Error('Tables should match');
+  }
+};
+
+const expectTableToNotMatch = (tableData1: DataFrame, tableData2: DataFrame) => {
+  if (!tableData1 || !tableData2) {
+    throw new Error('Table data cannot be null');
+  }
+
+  if (tableData1.length !== tableData2.length) {
+    throw new Error(`Tables are not valid Table1: ${tableData1.length} Vs Table2: ${tableData2.length}`);
+  }
+
+  if (tableData1.length === 0 || tableData2.length === 0) {
+    throw new Error(`Rows cannot be empty`);
+  }
+
+  if (tableAsString(tableData1) === tableAsString(tableData2)) {
+    throw new Error('Tables should not match');
+  }
+};
+
+export {
+  GroupType,
+  TableData,
+  DataFrameOptions,
+  findByRow,
+  clickRow,
+  clickBy,
+  expectTableToNotMatch,
+  expectTableToMatch,
+  DataFrame,
+};
 export { InteractiveDataFrame } from './interactive-dataframe';
 export { PlaywrightTables };
