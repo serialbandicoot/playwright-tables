@@ -1,30 +1,24 @@
 name: Tests
 
 on:
-  push:
-    branches: [ main ]
-  pull_request:
-    branches: [ main ]
-
+  push: { branches: [ main ] }
+  pull_request: { branches: [ main ] }
   workflow_dispatch:
-
-env:
-  PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: 1
-  PLAYWRIGHT_BROWSERS_PATH: 0 
 
 jobs:
   build:
     runs-on: ubuntu-latest
-
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          token: ${{ secrets.NPM_TOKEN }}
-          node-version: 18
-      - run: | 
-          npm install
-          npx playwright install --with-deps
+          node-version: 20
+          cache: 'npm'
+
+      - run: npm ci
+
+      # Installs Playwright browsers & system deps
+      - uses: microsoft/playwright-github-action@v1
 
       - name: Build
         run: npm run build
@@ -33,4 +27,4 @@ jobs:
         run: npm run lint && npm run format:check
 
       - name: Run tests
-        run: npm test
+        run: npx playwright test
