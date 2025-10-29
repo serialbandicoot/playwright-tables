@@ -1,24 +1,37 @@
 name: Tests
 
 on:
-  push: { branches: [ main ] }
-  pull_request: { branches: [ main ] }
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
   workflow_dispatch:
+
+# Optional: use Akamai CDN if Verizon is flaky for you
+env:
+  PLAYWRIGHT_DOWNLOAD_HOST: https://playwright-akamai.azureedge.net
 
 jobs:
   build:
     runs-on: ubuntu-latest
+
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/setup-node@v4
         with:
           node-version: 20
           cache: 'npm'
 
-      - run: npm ci
+      - name: Install deps
+        run: npm ci
 
-      # Installs Playwright browsers & system deps
-      - uses: microsoft/playwright-github-action@v1
+      # Install Playwright browsers & system deps (Linux)
+      - name: Install Playwright (with deps & retries)
+        run: |
+          for i in 1 2 3; do
+            npx playwright install --with-deps && break || (echo "retry $i" && sleep 8)
+          done
 
       - name: Build
         run: npm run build
