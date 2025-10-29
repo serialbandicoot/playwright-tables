@@ -93,6 +93,21 @@ export class InteractiveDataFrame {
   }
 
   /**
+   * Clicks the element inside a table cell identified by row and key.
+   *
+   * Uses the table's column key to resolve the cell via getLocator(row, key),
+   * then performs a simple click. Suitable for buttons, links, icons, etc.
+   *
+   * @param {number} row - Zero- or one-based row index (match your getLocator contract).
+   * @param {string} key - Column key used by getLocator to find the target cell/element.
+   * @returns {Promise<void>}
+  */
+  async clickByKey(row: number, key: string): Promise<void> {
+    const locator = await this.getLocator(row, key);
+    await locator.click();
+  }
+
+  /**
    * Retrieves the locator for a specific table cell identified by the row and key.
    *
    * This method extracts the correct locator for the cell based on the row number and column key.

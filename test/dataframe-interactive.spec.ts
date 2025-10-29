@@ -12,6 +12,7 @@ test.describe('Table and Column Tests Interactive', () => {
         await tablePage.table2.selectByKey(0, "Person", "Karen");
         await tablePage.table2.enterByKey(0, "Likes", "Going Loco");
         await tablePage.table2.enterByKey(0, "Age", 999);
+        await tablePage.table2.clickByKey(0, "Age");
 
         await expect(tablePage.table2Locator).toHaveColumnToBeValue("Age", "999")
         await expect(tablePage.table2Locator).toHaveColumnToBeValue("Likes", "Going Loco")
