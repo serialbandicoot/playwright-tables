@@ -9,7 +9,8 @@ on:
 
 # Optional: use Akamai CDN if Verizon is flaky for you
 env:
-  PLAYWRIGHT_DOWNLOAD_HOST: https://playwright-akamai.azureedge.net
+  env:
+  PLAYWRIGHT_DOWNLOAD_HOST: https://playwright.download.prss.microsoft.com
 
 jobs:
   build:
