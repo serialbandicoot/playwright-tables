@@ -7,11 +7,6 @@ on:
     branches: [ main ]
   workflow_dispatch:
 
-# Optional: use Akamai CDN if Verizon is flaky for you
-env:
-  env:
-  PLAYWRIGHT_DOWNLOAD_HOST: https://playwright.download.prss.microsoft.com
-
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -27,11 +22,25 @@ jobs:
       - name: Install deps
         run: npm ci
 
-      # Install Playwright browsers & system deps (Linux)
+      # Diagnostics: show Playwright version & expected browser build
+      - name: Diagnostics - Playwright & Node info
+        run: |
+          node -v
+          npm -v
+          # if playwright is installed in node_modules show its package.json info
+          if [ -f ./node_modules/playwright/package.json ]; then
+            node -e "const p=require('./node_modules/playwright/package.json'); console.log('playwright.version =', p.version); console.log('browserDownloads =', JSON.stringify(p.browserDownloads || {}));"
+          else
+            echo "playwright not present in node_modules (yet)"
+          fi
+          echo "Environment variables:"
+          env | grep PLAYWRIGHT || true
+
+      # Install Playwright browsers & system deps (Linux) with retries
       - name: Install Playwright (with deps & retries)
         run: |
           for i in 1 2 3; do
-            npx playwright install --with-deps && break || (echo "retry $i" && sleep 8)
+            npx playwright install --with-deps && break || (echo "playwright install failed - retry $i" && sleep 8)
           done
 
       - name: Build
