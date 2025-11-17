@@ -101,7 +101,7 @@ export class InteractiveDataFrame {
    * @param {number} row - Zero- or one-based row index (match your getLocator contract).
    * @param {string} key - Column key used by getLocator to find the target cell/element.
    * @returns {Promise<void>}
-  */
+   */
   async clickByKey(row: number, key: string): Promise<void> {
     const locator = await this.getLocator(row, key);
     await locator.click();
