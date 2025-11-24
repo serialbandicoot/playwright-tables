@@ -1,6 +1,5 @@
 import { expect, test } from '@playwright/test';
 import { TablePage } from './pages/tables-page';
-import { GroupType, toHaveColumnGroupToBeValue, toHaveColumnGroupToBeValues } from 'html-table-to-dataframe';
 
 test.describe('Table and Column Tests Interactive', () => {
 
@@ -38,6 +37,17 @@ test.describe('Table and Column Tests Interactive', () => {
 
         // Verify
         expect(consoleMessage).toContain("Profile link clicked for person 1!");
+    });
+
+    test('should click link2', async ({ page }) => {
+        await page.goto("/");
+
+        const tablePage = new TablePage(page);
+
+        await tablePage.table6.clickByKey(0, "App number") 
+
+        await expect(page.getByRole('document')).toContainText('Not Found');
+        await expect(page).toHaveURL(/\/path1\/3b1d3fda3$/);
     });
 
 });

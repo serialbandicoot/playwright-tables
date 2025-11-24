@@ -135,22 +135,48 @@ export class InteractiveDataFrame {
     const cell = rowLocator[key] as LocatorID;
     const attributes = cell.attributes as Attributes;
 
-    let testId = undefined;
+    let testId: string | undefined = undefined;
+
+    // 1) Explicit testId passed in options (original behaviour)
     if (this.options?.testId) {
       testId = attributes[this.options.testId];
     }
-    const id = attributes['id'];
-    const name = attributes['name'];
 
+    const rawSelector = (this.tableLocator as any)._selector;
+
+    // 2) Extract attribute name ONLY if testId not already set
+    let attrName: string | undefined;
+    if (!testId && rawSelector) {
+      // e.g. extracts: data-test-id, test-id, hello-world, whatever
+      attrName = String(rawSelector).match(/\[\s*([^\s=]+)\s*=/)?.[1];
+    }
+
+    // 3) If we found an attribute name, get its value from the attributes map
+    let extractedValue: string | undefined;
+    if (attrName) {
+      extractedValue = attributes[attrName];
+    }
+
+    // 4) Resolution order (simple!)
     if (testId) {
       return this.tableLocator.getByTestId(testId);
-    } else if (id) {
-      return this.tableLocator.locator(`#${id}`);
-    } else if (name) {
-      return this.tableLocator.locator(`[name="${name}"]`);
-    } else {
-      throw new Error('Neither testId, id, or name found in attributes.');
     }
+
+    if (attrName && extractedValue) {
+      return this.tableLocator.locator(`[${attrName}="${extractedValue}"]`);
+    }
+
+    const id = attributes['id'];
+    if (id) {
+      return this.tableLocator.locator(`#${id}`);
+    }
+
+    const name = attributes['name'];
+    if (name) {
+      return this.tableLocator.locator(`[name="${name}"]`);
+    }
+
+    throw new Error('Neither testId, id, name, or attribute-based selector found.');
   }
 
   /**

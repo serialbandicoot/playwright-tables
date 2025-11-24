@@ -50,62 +50,50 @@
   </table>
 
   <table data-test-id="table2">
-  <caption>Front-end web developer course 2021</caption>
+    <caption>Front-end web developer course 2021</caption>
 
-  <thead>
-    <tr>
-      <th scope="col" data-test-id="header-person">Person</th>
-      <th scope="col" data-test-id="header-likes">Likes</th>
-      <th scope="col" data-test-id="header-age">Age</th>
-      <th scope="col" data-test-id="header-profile">Profile</th>
-    </tr>
-  </thead>
+    <thead>
+      <tr>
+        <th scope="col" data-test-id="header-person">Person</th>
+        <th scope="col" data-test-id="header-likes">Likes</th>
+        <th scope="col" data-test-id="header-age">Age</th>
+        <th scope="col" data-test-id="header-profile">Profile</th>
+      </tr>
+    </thead>
 
-  <tbody>
-    <tr data-test-id="row-1">
-      <td>
-        <select id="person-1" name="person-1" data-test-id="person-1">
-          <option value="Chris" selected>Chris</option>
-          <option value="Dennis">Dennis</option>
-          <option value="Sarah">Sarah</option>
-          <option value="Karen">Karen</option>
-        </select>
-      </td>
-      <td>
-        <textarea id="likes-1" name="likes-1" data-test-id="likes-1">
-HTML tables</textarea
-        >
-      </td>
-      <td>
-        <input
-          type="number"
-          id="age-1"
-          name="age-1"
-          value="22"
-          data-test-id="age-1"
-        />
-      </td>
-      <td>
-        <a
-          href="#"
-          data-test-id="profile-link-1"
-          id="profile-link-1"
-          >View profile</a
-        >
-      </td>
-    </tr>
-  </tbody>
-</table>
+    <tbody>
+      <tr data-test-id="row-1">
+        <td>
+          <select id="person-1" name="person-1" data-test-id="person-1">
+            <option value="Chris" selected>Chris</option>
+            <option value="Dennis">Dennis</option>
+            <option value="Sarah">Sarah</option>
+            <option value="Karen">Karen</option>
+          </select>
+        </td>
+        <td>
+          <textarea id="likes-1" name="likes-1" data-test-id="likes-1">
+HTML tables</textarea>
+        </td>
+        <td>
+          <input type="number" id="age-1" name="age-1" value="22" data-test-id="age-1" />
+        </td>
+        <td>
+          <a href="#" data-test-id="profile-link-1" id="profile-link-1">View profile</a>
+        </td>
+      </tr>
+    </tbody>
+  </table>
 
-<script>
-  // Add a click handler to confirm interaction
-  const link = document.querySelector('[data-test-id="profile-link-1"]');
-  link.addEventListener('click', (event) => {
-    event.preventDefault();
-    console.log('Profile link clicked for person 1!');
-    link.setAttribute('data-clicked', 'true');
-  });
-</script>
+  <script>
+    // Add a click handler to confirm interaction
+    const link = document.querySelector('[data-test-id="profile-link-1"]');
+    link.addEventListener('click', (event) => {
+      event.preventDefault();
+      console.log('Profile link clicked for person 1!');
+      link.setAttribute('data-clicked', 'true');
+    });
+  </script>
 
   <table data-test-id="table4">
     <caption>
@@ -147,5 +135,23 @@ HTML tables</textarea
     </tbody>
   </table>
 </body>
+
+<table data-test-id="table6">
+  <thead>
+    <tr>
+      <th>App type</th>
+      <th>App number</th>
+      <th>Product name</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr data-test-id="path-row-1111-ab0001">
+      <td data-test-id="pathway-type">ONE</td>
+      <td data-test-id="pathway-number">
+        <a data-test-id="pathway-link" target="_self" href="/path1/3b1d3fda3">1111/ab0001</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
 
 </html>
