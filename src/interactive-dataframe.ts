@@ -1,6 +1,10 @@
 import { Locator, Page } from '@playwright/test';
 import { DataFrame, toInteractiveDataFrame, LocatorID, Attributes, DataFrameOptions } from 'html-table-to-dataframe';
 
+type LocatorWithSelector = Locator & {
+  _selector?: string;
+};
+
 /**
  * Represents an interactive data table with methods to interact with and manipulate its cells.
  *
@@ -142,7 +146,7 @@ export class InteractiveDataFrame {
       testId = attributes[this.options.testId];
     }
 
-    const rawSelector = (this.tableLocator as any)._selector;
+    const rawSelector = (this.tableLocator as LocatorWithSelector)._selector;
 
     // 2) Extract attribute name ONLY if testId not already set
     let attrName: string | undefined;
