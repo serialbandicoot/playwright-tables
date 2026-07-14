@@ -8,8 +8,7 @@
         "dist"
     ],
     "scripts": {
-        "prepare": "npm run build",
-        "prepublishOnly": "npm test && npm run lint",
+        "prepublishOnly": "npm test && npm run lint && npm run build",
         "build": "tsc",
         "start": "node server/index.js",
         "test": "playwright test",
