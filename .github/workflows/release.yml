@@ -36,9 +36,11 @@ jobs:
           git config --global user.email "samtreweek@gmail.com"
           git config --global user.name "Sam Treweek"
 
-      - run: |
-          npm ci
-          npx playwright install --with-deps
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Install Playwright browsers
+        run: npx playwright install --with-deps
 
       - name: Build
         run: npm run build
