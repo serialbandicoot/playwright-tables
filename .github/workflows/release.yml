@@ -36,32 +36,8 @@ jobs:
           git config --global user.email "samtreweek@gmail.com"
           git config --global user.name "Sam Treweek"
 
-      - name: Diagnostics
-        run: |
-          node -v
-          npm -v
-          npm config get registry
-          npm config list
-          echo "package name=$(node -p "require('./package.json').name")"
-          echo "package version=$(node -p "require('./package.json').version")"
-          echo "playwright peer=$(node -p "require('./package.json').peerDependencies?.['@playwright/test'] || 'missing'")"
-          echo "playwright dev=$(node -p "require('./package.json').devDependencies?.['@playwright/test'] || 'missing'")"
-
       - name: Install dependencies
-        run: npm ci --foreground-scripts --loglevel verbose
-
-      - name: Dump npm logs on failure
-        if: failure()
-        run: |
-          if [ -d "$HOME/.npm/_logs" ]; then
-            ls -la "$HOME/.npm/_logs"
-            for file in "$HOME"/.npm/_logs/*; do
-              echo "===== $file ====="
-              cat "$file"
-            done
-          else
-            echo "No npm log directory found"
-          fi
+        run: npm ci
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
@@ -78,6 +54,10 @@ jobs:
         run: npm test
 
       - name: Release
-        run: npm run release:ci -- ${{github.event.inputs.releaseType}} --npm.tag=${{github.event.inputs.distTag}}
+        run: |
+          unset NODE_AUTH_TOKEN
+          unset NPM_TOKEN
+          npm config delete //registry.npmjs.org/:_authToken --location=user || true
+          npm run release:ci -- ${{github.event.inputs.releaseType}} --npm.tag=${{github.event.inputs.distTag}}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
