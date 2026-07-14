@@ -26,7 +26,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v6
         with:
-          node-version: 24
+          node-version: 22
           registry-url: 'https://registry.npmjs.org'
           package-manager-cache: false
       - name: Remove deprecated npm config
@@ -36,8 +36,32 @@ jobs:
           git config --global user.email "samtreweek@gmail.com"
           git config --global user.name "Sam Treweek"
 
+      - name: Diagnostics
+        run: |
+          node -v
+          npm -v
+          npm config get registry
+          npm config list
+          echo "package name=$(node -p "require('./package.json').name")"
+          echo "package version=$(node -p "require('./package.json').version")"
+          echo "playwright peer=$(node -p "require('./package.json').peerDependencies?.['@playwright/test'] || 'missing'")"
+          echo "playwright dev=$(node -p "require('./package.json').devDependencies?.['@playwright/test'] || 'missing'")"
+
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --foreground-scripts --loglevel verbose
+
+      - name: Dump npm logs on failure
+        if: failure()
+        run: |
+          if [ -d "$HOME/.npm/_logs" ]; then
+            ls -la "$HOME/.npm/_logs"
+            for file in "$HOME"/.npm/_logs/*; do
+              echo "===== $file ====="
+              cat "$file"
+            done
+          else
+            echo "No npm log directory found"
+          fi
 
       - name: Install Playwright browsers
         run: npx playwright install --with-deps
