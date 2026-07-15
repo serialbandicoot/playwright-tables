@@ -29,6 +29,8 @@ jobs:
           node-version: 22
           registry-url: 'https://registry.npmjs.org'
           package-manager-cache: false
+      - name: Upgrade npm for trusted publishing
+        run: npm install -g npm@latest
       - name: Remove deprecated npm config
         run: npm config delete always-auth --location=user
       - name: Git Setup
@@ -57,6 +59,10 @@ jobs:
         run: |
           unset NODE_AUTH_TOKEN
           unset NPM_TOKEN
+          if [ -n "${NPM_CONFIG_USERCONFIG:-}" ] && [ -f "$NPM_CONFIG_USERCONFIG" ]; then
+            rm -f "$NPM_CONFIG_USERCONFIG"
+          fi
+          unset NPM_CONFIG_USERCONFIG
           npm config delete //registry.npmjs.org/:_authToken --location=user || true
           npm run release:ci -- ${{github.event.inputs.releaseType}} --npm.tag=${{github.event.inputs.distTag}}
         env:
