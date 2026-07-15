@@ -50,4 +50,21 @@ test.describe('Table and Column Tests Interactive', () => {
         await expect(page).toHaveURL(/\/path1\/3b1d3fda3$/);
     });
 
+    test('should click repeated test ids in the correct row', async ({ page }) => {
+        await page.goto("/");
+
+        const tablePage = new TablePage(page);
+        const messages: string[] = [];
+
+        page.on('console', msg => {
+            messages.push(msg.text());
+        });
+
+        await tablePage.table7.clickByKey(0, "Open");
+        await tablePage.table7.clickByKey(1, "Open");
+
+        expect(messages).toContain("Repeated product link clicked for row 1!");
+        expect(messages).toContain("Repeated product link clicked for row 2!");
+    });
+
 });

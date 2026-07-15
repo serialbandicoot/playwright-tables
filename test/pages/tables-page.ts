@@ -5,9 +5,11 @@ export class TablePage {
     readonly table2Locator: Locator;
     readonly table4Locator: Locator;
     readonly table6Locator: Locator;
+    readonly table7Locator: Locator;
     readonly table2: InteractiveDataFrame;
     readonly table4: InteractiveDataFrame;
     readonly table6: InteractiveDataFrame;
+    readonly table7: InteractiveDataFrame;
     
     constructor(public readonly page: Page) {
         this.table2Locator = this.page.getByTestId("table2");
@@ -16,5 +18,7 @@ export class TablePage {
         this.table4 = new InteractiveDataFrame(this.page, this.table4Locator);
         this.table6Locator = this.page.getByTestId("table6");
         this.table6 = new InteractiveDataFrame(this.page, this.table6Locator);
+        this.table7Locator = this.page.getByTestId("table7");
+        this.table7 = new InteractiveDataFrame(this.page, this.table7Locator, { testId: "data-test-id" });
     }
 }

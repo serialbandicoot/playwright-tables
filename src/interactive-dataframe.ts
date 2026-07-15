@@ -124,6 +124,7 @@ export class InteractiveDataFrame {
    */
   private async getLocator(row: number, key: string): Promise<Locator> {
     const table = await this.getInteractiveTableData();
+    const scopedRowLocator = this.tableLocator.locator('tbody tr').nth(row);
 
     if (row > table.length + 1) {
       throw new Error(`rowIndex ${row} is too high!`);
@@ -163,21 +164,21 @@ export class InteractiveDataFrame {
 
     // 4) Resolution order (simple!)
     if (testId) {
-      return this.tableLocator.getByTestId(testId);
+      return scopedRowLocator.getByTestId(testId);
     }
 
     if (attrName && extractedValue) {
-      return this.tableLocator.locator(`[${attrName}="${extractedValue}"]`);
+      return scopedRowLocator.locator(`[${attrName}="${extractedValue}"]`);
     }
 
     const id = attributes['id'];
     if (id) {
-      return this.tableLocator.locator(`#${id}`);
+      return scopedRowLocator.locator(`#${id}`);
     }
 
     const name = attributes['name'];
     if (name) {
-      return this.tableLocator.locator(`[name="${name}"]`);
+      return scopedRowLocator.locator(`[name="${name}"]`);
     }
 
     throw new Error('Neither testId, id, name, or attribute-based selector found.');

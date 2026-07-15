@@ -154,4 +154,41 @@ HTML tables</textarea>
   </tbody>
 </table>
 
+<table data-test-id="table7">
+  <thead>
+    <tr>
+      <th>Product name</th>
+      <th>Open</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr data-test-id="product-row-1">
+      <td data-test-id="product-name-cell-1">Product one</td>
+      <td data-test-id="product-open-cell-1">
+        <a data-test-id="product-link" href="#" id="product-link-1">Open</a>
+      </td>
+    </tr>
+    <tr data-test-id="product-row-2">
+      <td data-test-id="product-name-cell-2">Product two</td>
+      <td data-test-id="product-open-cell-2">
+        <a data-test-id="product-link" href="#" id="product-link-2">Open</a>
+      </td>
+    </tr>
+  </tbody>
+</table>
+
+<script>
+  const repeatedProductLink1 = document.querySelector('#product-link-1');
+  repeatedProductLink1.addEventListener('click', (event) => {
+    event.preventDefault();
+    console.log('Repeated product link clicked for row 1!');
+  });
+
+  const repeatedProductLink2 = document.querySelector('#product-link-2');
+  repeatedProductLink2.addEventListener('click', (event) => {
+    event.preventDefault();
+    console.log('Repeated product link clicked for row 2!');
+  });
+</script>
+
 </html>
