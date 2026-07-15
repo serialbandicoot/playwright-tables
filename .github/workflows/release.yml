@@ -19,20 +19,21 @@ permissions:
 jobs:
   release:
     runs-on: ubuntu-latest
+
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: 'main'
           fetch-depth: 0
-      - uses: actions/setup-node@v6
+
+      - uses: actions/setup-node@v4
         with:
           node-version: 22
-          registry-url: 'https://registry.npmjs.org'
-          package-manager-cache: false
+          cache: 'npm'
+
       - name: Upgrade npm for trusted publishing
         run: npm install -g npm@latest
-      - name: Remove deprecated npm config
-        run: npm config delete always-auth --location=user
+
       - name: Git Setup
         run: |
           git config --global user.email "samtreweek@gmail.com"
@@ -42,12 +43,13 @@ jobs:
         run: npm ci
 
       - name: Install Playwright browsers
-        run: npx playwright install --with-deps
+        run: |
+          for i in 1 2 3; do
+            npx playwright install --with-deps && break || (echo "playwright install failed - retry $i" && sleep 8)
+          done
 
       - name: Build
         run: npm run build
-        env:
-            NODE_ENV: production
 
       - name: Run eslint & prettier
         run: npm run lint && npm run format:check
@@ -56,14 +58,6 @@ jobs:
         run: npm test
 
       - name: Release
-        run: |
-          unset NODE_AUTH_TOKEN
-          unset NPM_TOKEN
-          if [ -n "${NPM_CONFIG_USERCONFIG:-}" ] && [ -f "$NPM_CONFIG_USERCONFIG" ]; then
-            rm -f "$NPM_CONFIG_USERCONFIG"
-          fi
-          unset NPM_CONFIG_USERCONFIG
-          npm config delete //registry.npmjs.org/:_authToken --location=user || true
-          npm run release:ci -- ${{github.event.inputs.releaseType}} --npm.tag=${{github.event.inputs.distTag}}
+        run: npm run release:ci -- ${{ github.event.inputs.releaseType }} --npm.tag=${{ github.event.inputs.distTag }}
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
